@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cellform.cpp \
     createprojectform.cpp \
     inputparametersform.cpp \
     main.cpp \
@@ -16,12 +17,14 @@ SOURCES += \
     turingclass.cpp
 
 HEADERS += \
+    cellform.h \
     createprojectform.h \
     inputparametersform.h \
     mainwindow.h \
     turingclass.h
 
 FORMS += \
+    cellform.ui \
     createprojectform.ui \
     inputparametersform.ui \
     mainwindow.ui

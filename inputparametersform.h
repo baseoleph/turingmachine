@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QComboBox>
 
+#include "cellform.h"
+
 namespace Ui {
 class InputParametersForm;
 }
@@ -24,9 +26,11 @@ private:
     QList<QString> alphabet;
     QList<QString> states;
 
-    QVector<QLabel *> label_states;
-    QVector<QLabel *> label_alphabet;
     QVector<QVector<QFrame *>> table_frame;
+    QVector<QVector<CellForm *>> table_instructions;
+
+    void setInstructions();
+    void setTableFrames();
 };
 
 #endif // INPUTPARAMETERSFORM_H

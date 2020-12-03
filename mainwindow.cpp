@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     ////
     turing.alphabet = {"a", "s", "b", "*"};
     turing.states = {"q0", "q1", "q2", "q43", "qqqq"};
+//    turing.alphabet = {"a"};
+//    turing.states = {"ad"};
     vbox->removeWidget(create_form);
     create_form->close();
 
