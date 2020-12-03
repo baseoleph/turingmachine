@@ -10,17 +10,20 @@ CONFIG += c++11
 
 SOURCES += \
     createprojectform.cpp \
+    inputparametersform.cpp \
     main.cpp \
     mainwindow.cpp \
     turingclass.cpp
 
 HEADERS += \
     createprojectform.h \
+    inputparametersform.h \
     mainwindow.h \
     turingclass.h
 
 FORMS += \
     createprojectform.ui \
+    inputparametersform.ui \
     mainwindow.ui
 
 # Default rules for deployment.

@@ -1,10 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QVBoxLayout>
+
 #include <QMainWindow>
 #include "turingclass.h"
 #include "createprojectform.h"
-#include <QVBoxLayout>
+#include "inputparametersform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,7 +26,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     TuringClass turing;
-    CreateProjectForm *create_form;
+    CreateProjectForm *create_form = nullptr;
+    InputParametersForm *input_form = nullptr;
 
     QVBoxLayout *vbox;
 };

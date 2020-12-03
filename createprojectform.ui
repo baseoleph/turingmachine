@@ -67,7 +67,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_alphabet"/>
+          <widget class="QLineEdit" name="lineEdit_alphabet">
+           <property name="text">
+            <string>a s d f g</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -93,6 +97,9 @@
            <width>20</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="text">
+          <string>4</string>
          </property>
         </widget>
        </item>
