@@ -10,10 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    turingclass.cpp
 
 HEADERS += \
     mainwindow.h
+    mainwindow.h \
+    turingclass.h
 
 FORMS += \
     mainwindow.ui
