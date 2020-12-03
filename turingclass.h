@@ -30,12 +30,14 @@ public:
 
     void takeStep();
     void setAction(int cur_q, int cur_a, int a, int q, int d);
+    void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
 
-private:
     // alphabet
     QList<QString> alphabet;
     // machine's state
     QList<QString> states;
+
+private:
     // moves
     QList<QString> moves = {"Stay", "Left", "Right"};
 

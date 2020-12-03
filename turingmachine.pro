@@ -9,16 +9,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    createprojectform.cpp \
     main.cpp \
     mainwindow.cpp \
     turingclass.cpp
 
 HEADERS += \
-    mainwindow.h
+    createprojectform.h \
     mainwindow.h \
     turingclass.h
 
 FORMS += \
+    createprojectform.ui \
     mainwindow.ui
 
 # Default rules for deployment.

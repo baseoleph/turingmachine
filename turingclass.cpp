@@ -2,31 +2,27 @@
 
 TuringClass::TuringClass()
 {
-    alphabet = {"a0", "1", "*"};
-    states = {"q0", "q1"};
+//    table_of_actions.clear();
+//    for (int i = 0; i < states.size(); ++i)
+//    {
+//        QVector<Action> temp;
+//        for (int j = 0; j < alphabet.size(); ++j)
+//        {
+//            Action act_temp;
+//            temp.append(act_temp);
+//        }
+//        table_of_actions.append(temp);
+//    }
 
-    table_of_actions.clear();
-    for (int i = 0; i < states.size(); ++i)
-    {
-        QVector<Action> temp;
-        for (int j = 0; j < alphabet.size(); ++j)
-        {
-            Action act_temp;
-            temp.append(act_temp);
-        }
-        table_of_actions.append(temp);
-    }
+//    setAction(0, 2, 2, 0, 2);
+//    setAction(0, 1, 1, 1, 2);
+//    setAction(1, 2, 2, 1, 2);
+//    setAction(1, 1, 2, 0, 2);
+//    setAction(0, 0, 0, 0, 2);
 
-    setAction(0, 2, 2, 0, 2);
-    setAction(0, 1, 1, 1, 2);
-    setAction(1, 2, 2, 1, 2);
-    setAction(1, 1, 2, 0, 2);
-    setAction(0, 0, 0, 0, 2);
-
-    word = {2, 1, 2, 1, 1, 1};
-//    word = {2};
-    checkEdges();
-    debugOutputWord();
+//    word = {2, 1, 2, 1, 1, 1};
+//    checkEdges();
+//    debugOutputWord();
 }
 
 void TuringClass::takeStep()
@@ -55,6 +51,12 @@ void TuringClass::setAction(int cur_q, int cur_a, int a, int q, int d)
     table_of_actions[cur_q][cur_a].a = a;
     table_of_actions[cur_q][cur_a].q = q;
     table_of_actions[cur_q][cur_a].d = d;
+}
+
+void TuringClass::setAlphabetStates(QList<QString> alphabet, QList<QString> states)
+{
+    this->alphabet = alphabet;
+    this->states = states;
 }
 
 void TuringClass::debugOutputWord()
