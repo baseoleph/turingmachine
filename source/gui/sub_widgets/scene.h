@@ -11,7 +11,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsWidget>
 #include <QtMath>
-#include "turingclass.h"
+#include "core/turingclass.h"
 
 class Scene : public QGraphicsScene
 {

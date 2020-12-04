@@ -9,8 +9,8 @@
 #include <QDebug>
 #include <QComboBox>
 
-#include "cellform.h"
-#include "letterform.h"
+#include "input_frames/cellform.h"
+#include "input_frames/letterform.h"
 
 #ifndef TURINGCLASS_H
 struct Action

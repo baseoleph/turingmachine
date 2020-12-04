@@ -4,10 +4,10 @@
 #include <QVBoxLayout>
 
 #include <QMainWindow>
-#include "turingclass.h"
-#include "createprojectform.h"
-#include "inputparametersform.h"
-#include "workingmachineform.h"
+#include "core/turingclass.h"
+#include "sub_widgets/createprojectform.h"
+#include "sub_widgets/inputparametersform.h"
+#include "sub_widgets/workingmachineform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

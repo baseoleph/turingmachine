@@ -4,7 +4,7 @@
 #include <QWidget>
 
 #include "scene.h"
-#include "turingclass.h"
+#include "core/turingclass.h"
 
 namespace Ui {
 class WorkingMachineForm;
