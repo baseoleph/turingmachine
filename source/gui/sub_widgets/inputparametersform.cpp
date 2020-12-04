@@ -6,6 +6,7 @@ InputParametersForm::InputParametersForm(QWidget *parent, QList<QString> alphabe
     ui(new Ui::InputParametersForm)
 {
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose);
     this->alphabet = alphabet;
     this->states = states;
 

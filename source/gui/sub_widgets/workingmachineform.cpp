@@ -6,6 +6,7 @@ WorkingMachineForm::WorkingMachineForm(QWidget *parent, TuringClass *turing) :
     ui(new Ui::WorkingMachineForm)
 {
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose);
     this->turing = turing;
 
     tm = new QTimer();

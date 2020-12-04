@@ -5,6 +5,9 @@
 
 #include <QMainWindow>
 #include "core/turingclass.h"
+#include "project/projectfileclass.h"
+
+#include "sub_widgets/managerprojectform.h"
 #include "sub_widgets/createprojectform.h"
 #include "sub_widgets/inputparametersform.h"
 #include "sub_widgets/workingmachineform.h"
@@ -22,16 +25,26 @@ public:
     ~MainWindow();
 
 private slots:
+    void createProjectSlot();
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
     void tableWordSlot(QVector<QVector<Action>> table, QVector<int> word);
+    void on_action_open_triggered();
 
 private:
     Ui::MainWindow *ui;
+    ProjectFileClass *project;
     TuringClass turing;
+
+    ManagerProjectForm *manager_form = nullptr;
     CreateProjectForm *create_form = nullptr;
     InputParametersForm *input_form = nullptr;
     WorkingMachineForm *working_form = nullptr;
 
     QVBoxLayout *vbox;
+
+    void openFormManager(ManagerProjectForm *form);
+    void openFormCreate(CreateProjectForm *form);
+    void openFormInput(InputParametersForm *form);
+    void openFormWorking(WorkingMachineForm *form);
 };
 #endif // MAINWINDOW_H

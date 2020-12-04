@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    gui/sub_widgets/managerprojectform.cpp \
     main.cpp \
     core/turingclass.cpp \
     gui/mainwindow.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     gui/sub_widgets/input_frames/cellform.cpp \
     gui/sub_widgets/input_frames/letterform.cpp \
     gui/sub_widgets/workingmachineform.cpp \
-    gui/sub_widgets/scene.cpp
+    gui/sub_widgets/scene.cpp \
+    project/projectfileclass.cpp
 
 HEADERS += \
     core/turingclass.h \
@@ -26,8 +28,10 @@ HEADERS += \
     gui/sub_widgets/inputparametersform.h \
     gui/sub_widgets/input_frames/cellform.h \
     gui/sub_widgets/input_frames/letterform.h \
+    gui/sub_widgets/managerprojectform.h \
     gui/sub_widgets/workingmachineform.h \
-    gui/sub_widgets/scene.h
+    gui/sub_widgets/scene.h \
+    project/projectfileclass.h
 
 FORMS += \
     gui/mainwindow.ui \
@@ -35,6 +39,7 @@ FORMS += \
     gui/sub_widgets/inputparametersform.ui \
     gui/sub_widgets/input_frames/cellform.ui \
     gui/sub_widgets/input_frames/letterform.ui \
+    gui/sub_widgets/managerprojectform.ui \
     gui/sub_widgets/workingmachineform.ui
 
 # Default rules for deployment.

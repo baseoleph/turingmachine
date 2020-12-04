@@ -40,6 +40,7 @@ public:
     QVector<QVector<Action>> table_of_actions;
     QVector<int> word;
     CurrentState machine_point;
+
 private:
     // moves
     QList<QString> moves = {"Stay", "Left", "Right"};

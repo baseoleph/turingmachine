@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 //    create_form = new CreateProjectForm(this);
-    working_form = new WorkingMachineForm(this, &turing);
+//    working_form = new WorkingMachineForm(this, &turing);
     vbox = new QVBoxLayout(ui->centralwidget);
-    vbox->addWidget(working_form);
+//    vbox->addWidget(working_form);
 
 //    ////
 //    turing.alphabet = {"a", "s", "b", "*"};
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ////
 
-
+    openFormManager(manager_form);
 
 //    connect(create_form, &CreateProjectForm::setAlphabetStatesSignal, this, &MainWindow::setAlphabetStates);
 
@@ -34,10 +34,17 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete vbox;
+    if (manager_form != nullptr) delete create_form;
     if (create_form != nullptr) delete create_form;
     if (input_form != nullptr) delete input_form;
     if (working_form != nullptr) delete working_form;
     delete ui;
+}
+
+void MainWindow::createProjectSlot()
+{
+    manager_form = nullptr;
+    openFormCreate(create_form);
 }
 
 void MainWindow::setAlphabetStates(QList<QString> alphabet, QList<QString> states)
@@ -58,4 +65,22 @@ void MainWindow::tableWordSlot(QVector<QVector<Action> > table, QVector<int> wor
     vbox->removeWidget(input_form);
     input_form->close();
     qDebug() << turing.word;
+}
+
+void MainWindow::openFormManager(ManagerProjectForm *form)
+{
+    form = new ManagerProjectForm(this, project);
+    vbox->addWidget(form);
+    connect(form, &ManagerProjectForm::emitCreateProjectSignal, this, &MainWindow::createProjectSlot);
+}
+
+void MainWindow::openFormCreate(CreateProjectForm *form)
+{
+    project = new ProjectFileClass(true);
+    form = new CreateProjectForm(this, project);
+    vbox->addWidget(form);
+}
+
+void MainWindow::on_action_open_triggered()
+{
 }
