@@ -7,6 +7,7 @@
 #include "turingclass.h"
 #include "createprojectform.h"
 #include "inputparametersform.h"
+#include "workingmachineform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +30,7 @@ private:
     TuringClass turing;
     CreateProjectForm *create_form = nullptr;
     InputParametersForm *input_form = nullptr;
+    WorkingMachineForm *working_form = nullptr;
 
     QVBoxLayout *vbox;
 };

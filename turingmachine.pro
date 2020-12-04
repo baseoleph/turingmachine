@@ -15,7 +15,9 @@ SOURCES += \
     letterform.cpp \
     main.cpp \
     mainwindow.cpp \
-    turingclass.cpp
+    scene.cpp \
+    turingclass.cpp \
+    workingmachineform.cpp
 
 HEADERS += \
     cellform.h \
@@ -23,14 +25,17 @@ HEADERS += \
     inputparametersform.h \
     letterform.h \
     mainwindow.h \
-    turingclass.h
+    scene.h \
+    turingclass.h \
+    workingmachineform.h
 
 FORMS += \
     cellform.ui \
     createprojectform.ui \
     inputparametersform.ui \
     letterform.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    workingmachineform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

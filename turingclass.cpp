@@ -2,27 +2,30 @@
 
 TuringClass::TuringClass()
 {
-//    table_of_actions.clear();
-//    for (int i = 0; i < states.size(); ++i)
-//    {
-//        QVector<Action> temp;
-//        for (int j = 0; j < alphabet.size(); ++j)
-//        {
-//            Action act_temp;
-//            temp.append(act_temp);
-//        }
-//        table_of_actions.append(temp);
-//    }
+    alphabet = {"a0", "1", "*"};
+    states = {"q0", "q1"};
 
-//    setAction(0, 2, 2, 0, 2);
-//    setAction(0, 1, 1, 1, 2);
-//    setAction(1, 2, 2, 1, 2);
-//    setAction(1, 1, 2, 0, 2);
-//    setAction(0, 0, 0, 0, 2);
+    table_of_actions.clear();
+    for (int i = 0; i < states.size(); ++i)
+    {
+        QVector<Action> temp;
+        for (int j = 0; j < alphabet.size(); ++j)
+        {
+            Action act_temp;
+            temp.append(act_temp);
+        }
+        table_of_actions.append(temp);
+    }
 
-//    word = {2, 1, 2, 1, 1, 1};
-//    checkEdges();
-//    debugOutputWord();
+    setAction(0, 2, 2, 0, 2);
+    setAction(0, 1, 1, 1, 2);
+    setAction(1, 2, 2, 1, 2);
+    setAction(1, 1, 2, 0, 2);
+    setAction(0, 0, 0, 0, 2);
+
+    word = {2, 1, 2, 1, 1, 1};
+    checkEdges();
+    debugOutputWord();
 }
 
 void TuringClass::takeStep()
