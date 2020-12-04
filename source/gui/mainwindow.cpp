@@ -76,11 +76,20 @@ void MainWindow::openFormManager(ManagerProjectForm *form)
 
 void MainWindow::openFormCreate(CreateProjectForm *form)
 {
-    project = new ProjectFileClass(true);
+    project = new ProjectFileClass(this, true);
     form = new CreateProjectForm(this, project);
     vbox->addWidget(form);
 }
 
 void MainWindow::on_action_open_triggered()
 {
+}
+
+void MainWindow::on_action_save_triggered()
+{
+}
+
+void MainWindow::on_action_save_as_triggered()
+{
+    if (project != nullptr) project->saveAsProject();
 }

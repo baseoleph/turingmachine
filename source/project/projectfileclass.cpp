@@ -1,7 +1,8 @@
 #include "projectfileclass.h"
 
-ProjectFileClass::ProjectFileClass(bool is_new_project)
+ProjectFileClass::ProjectFileClass(QWidget *parent, bool is_new_project)
 {
+    this->parent = parent;
     alphabet_whitout_empty = {"1", "*"};
     named_states = {"aaa"};
     states = {"aaa", "q1"};
@@ -34,6 +35,23 @@ void ProjectFileClass::createStates(QString arg1)
     {
         states[i] = temp_states[i];
     }
+}
+
+void ProjectFileClass::saveAsProject()
+{
+    updateTuringData();
+//    JsonParserClass *pars = new JsonParserClass(parent, turing);
+    JsonParserClass(parent, turing).saveData();
+}
+
+void ProjectFileClass::updateTuringData()
+{
+    turing->alphabet.clear();
+    turing->alphabet.append(empty_element);
+    turing->alphabet += alphabet_whitout_empty;
+
+    turing->states.clear();
+    turing->states = states;
 }
 
 

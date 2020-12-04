@@ -19,6 +19,7 @@ SOURCES += \
     gui/sub_widgets/input_frames/letterform.cpp \
     gui/sub_widgets/workingmachineform.cpp \
     gui/sub_widgets/scene.cpp \
+    project/jsonparserclass.cpp \
     project/projectfileclass.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     gui/sub_widgets/managerprojectform.h \
     gui/sub_widgets/workingmachineform.h \
     gui/sub_widgets/scene.h \
+    project/jsonparserclass.h \
     project/projectfileclass.h
 
 FORMS += \

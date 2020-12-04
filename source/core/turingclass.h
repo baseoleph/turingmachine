@@ -32,6 +32,7 @@ public:
     void setAction(int cur_q, int cur_a, int a, int q, int d);
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
 
+    QString project_name = "test";
     // alphabet
     QList<QString> alphabet;
     // machine's state

@@ -1,12 +1,14 @@
 #ifndef PROJECTFILECLASS_H
 #define PROJECTFILECLASS_H
 
+#include <QWidget>
 #include "core/turingclass.h"
+#include "jsonparserclass.h"
 
 class ProjectFileClass
 {
 public:
-    ProjectFileClass(bool is_new_project = true);
+    ProjectFileClass(QWidget *parent = nullptr, bool is_new_project = true);
     ~ProjectFileClass();
 
     bool is_new_proj;
@@ -23,10 +25,12 @@ public:
 
     void createAutomaticStates(int len);
     void createStates(QString arg1);
-
-private:
+    void saveAsProject();
     TuringClass *turing = nullptr;
 
+private:
+    QWidget *parent;
+    void updateTuringData();
 
 };
 

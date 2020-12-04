@@ -30,9 +30,13 @@ private slots:
     void tableWordSlot(QVector<QVector<Action>> table, QVector<int> word);
     void on_action_open_triggered();
 
+    void on_action_save_triggered();
+
+    void on_action_save_as_triggered();
+
 private:
     Ui::MainWindow *ui;
-    ProjectFileClass *project;
+    ProjectFileClass *project = nullptr;
     TuringClass turing;
 
     ManagerProjectForm *manager_form = nullptr;
