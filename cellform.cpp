@@ -6,6 +6,9 @@ CellForm::CellForm(QWidget *parent, QList<QString> a, QList<QString> q) :
     ui(new Ui::CellForm)
 {
     ui->setupUi(this);
+
+    ui->comboBox_a->addItem("");
+    ui->comboBox_q->addItem("");
     foreach (auto e, a)
     {
         ui->comboBox_a->addItem(e);
@@ -15,16 +18,14 @@ CellForm::CellForm(QWidget *parent, QList<QString> a, QList<QString> q) :
         ui->comboBox_q->addItem(e);
     }
 
+    ui->comboBox_d->addItem("");
     ui->comboBox_d->addItem("L");
     ui->comboBox_d->addItem("R");
 
-    ui->comboBox_a->addItem("");
-    ui->comboBox_q->addItem("");
-    ui->comboBox_d->addItem("");
 
-    ui->comboBox_a->setCurrentIndex(a.size());
-    ui->comboBox_q->setCurrentIndex(q.size());
-    ui->comboBox_d->setCurrentIndex(2);
+    ui->comboBox_a->setCurrentIndex(0);
+    ui->comboBox_q->setCurrentIndex(0);
+    ui->comboBox_d->setCurrentIndex(0);
 }
 
 CellForm::~CellForm()

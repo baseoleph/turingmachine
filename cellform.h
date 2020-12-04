@@ -15,9 +15,9 @@ public:
     explicit CellForm(QWidget *parent = nullptr, QList<QString> a = {}, QList<QString> q = {});
     ~CellForm();
 
-    int a_state;
-    int q_state;
-    int d_state;
+    int a_state = 0;
+    int q_state = 0;
+    int d_state = 0;
 
 private slots:
     void on_comboBox_q_activated(int index);

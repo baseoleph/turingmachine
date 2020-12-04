@@ -22,6 +22,7 @@ public:
 
 private slots:
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
+    void tableWordSlot(QVector<QVector<Action>> table, QVector<int> word);
 
 private:
     Ui::MainWindow *ui;

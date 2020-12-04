@@ -11,6 +11,7 @@ InputParametersForm::InputParametersForm(QWidget *parent, QList<QString> alphabe
 
     setInstructions();
     setTableFrames();
+    setWordFrames(1);
     ui->gridLayout->setSpacing(0);
     for (int i = 0; i < table_frame.size(); ++i)
     {
@@ -19,9 +20,6 @@ InputParametersForm::InputParametersForm(QWidget *parent, QList<QString> alphabe
             ui->gridLayout->addWidget(table_frame[i][j], i, j);
         }
     }
-
-
-    ui->horizontalLayout_word->addWidget(new QComboBox);
 }
 
 InputParametersForm::~InputParametersForm()
@@ -34,7 +32,25 @@ InputParametersForm::~InputParametersForm()
         }
     }
 
+    foreach (auto e1, table_frame)
+    {
+        foreach (auto e2, e1)
+        {
+            delete e2;
+        }
+    }
+
+    clearWordFrames();
     delete ui;
+}
+
+void InputParametersForm::clearWordFrames()
+{
+    foreach (auto e, vector_word)
+    {
+        delete e;
+    }
+    vector_word.clear();
 }
 
 void InputParametersForm::setInstructions()
@@ -77,4 +93,74 @@ void InputParametersForm::setTableFrames()
         }
         table_frame.append(tmp);
     }
+}
+
+void InputParametersForm::setWordFrames(int len)
+{
+    foreach (auto e, vector_word)
+    {
+        delete e;
+    }
+    vector_word.clear();
+
+    for (int i = 0; i < len; ++i)
+    {
+        vector_word.append(new LetterForm(this, alphabet));
+        ui->scrollAreaWidgetContents_word->layout()->addWidget(vector_word[i]);
+    }
+}
+
+void InputParametersForm::allocWordFrames(int size)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        vector_word.append(new LetterForm(this, alphabet));
+        ui->scrollAreaWidgetContents_word->layout()->addWidget(vector_word[i]);
+    }
+}
+
+
+void InputParametersForm::on_lineEdit_len_of_word_textChanged(const QString &arg1)
+{
+    len_of_word = arg1.toInt();
+}
+
+void InputParametersForm::on_pushButton_set_visible_word_clicked()
+{
+    setWordFrames(len_of_word);
+}
+
+void InputParametersForm::on_pushButton_add_word_clicked()
+{
+    QVector<int> t;
+    foreach (auto e, vector_word)
+    {
+        t.append(e->letter_state);
+    }
+    words.append(t);
+    QString word_to_combobox = "";
+    foreach (auto e, words.last())
+    {
+        word_to_combobox += alphabet[e];
+    }
+    ui->comboBox_words->addItem(word_to_combobox);
+}
+void InputParametersForm::on_pushButton_next_clicked()
+{
+    table_of_actions.clear();
+    for (int i = 0; i < table_instructions.size(); ++i)
+    {
+        QVector<Action> tmp;
+        for (int j = 0; j < table_instructions[i].size(); ++j)
+        {
+            Action act;
+            act.a = table_instructions[i][j]->a_state;
+            act.q = table_instructions[i][j]->q_state;
+            act.d = table_instructions[i][j]->d_state;
+            tmp.append(act);
+        }
+        table_of_actions.append(tmp);
+    }
+
+    tableWordSignal(table_of_actions, words[ui->comboBox_words->currentIndex()]);
 }

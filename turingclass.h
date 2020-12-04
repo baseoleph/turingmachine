@@ -37,15 +37,15 @@ public:
     // machine's state
     QList<QString> states;
 
+    QVector<QVector<Action>> table_of_actions;
+    QVector<int> word;
 private:
     // moves
     QList<QString> moves = {"Stay", "Left", "Right"};
 
-    QVector<QVector<Action>> table_of_actions;
 
     // history of actions
     QVector<Action> vector_of_actions;
-    QVector<int> word;
     CurrentState machine_point;
 
     void debugOutputWord();

@@ -12,6 +12,7 @@ SOURCES += \
     cellform.cpp \
     createprojectform.cpp \
     inputparametersform.cpp \
+    letterform.cpp \
     main.cpp \
     mainwindow.cpp \
     turingclass.cpp
@@ -20,6 +21,7 @@ HEADERS += \
     cellform.h \
     createprojectform.h \
     inputparametersform.h \
+    letterform.h \
     mainwindow.h \
     turingclass.h
 
@@ -27,6 +29,7 @@ FORMS += \
     cellform.ui \
     createprojectform.ui \
     inputparametersform.ui \
+    letterform.ui \
     mainwindow.ui
 
 # Default rules for deployment.
