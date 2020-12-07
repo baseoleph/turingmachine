@@ -12,7 +12,6 @@ ProjectFileClass::ProjectFileClass(QWidget *parent)
 
 ProjectFileClass::~ProjectFileClass()
 {
-    if (not isSavedCopyShows()) qDebug() << "not saved";
     delete turing;
 }
 

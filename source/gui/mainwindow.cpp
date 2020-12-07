@@ -20,6 +20,31 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (closePoject())
+    {
+        event->accept();
+    }
+    else
+    {
+        int message_box_state = tryToUnsavedClose();
+        if (message_box_state == QMessageBox::Save)
+        {
+            on_action_save_triggered();
+            event->accept();
+        }
+        else if (message_box_state == QMessageBox::Discard)
+        {
+            event->accept();
+        }
+        else if (message_box_state == QMessageBox::Cancel)
+        {
+            event->ignore();
+        }
+    }
+}
+
 void MainWindow::createProjectSlot()
 {
     project = new ProjectFileClass(this);
@@ -46,7 +71,6 @@ void MainWindow::tableWordSlot(QVector<QVector<Action> > table, QVector<int> wor
 
     vbox->removeWidget(input_form);
     input_form->close();
-    qDebug() << turing.word;
 }
 
 void MainWindow::openFormManager(ManagerProjectForm *form)
@@ -60,6 +84,20 @@ void MainWindow::openFormCreate(CreateProjectForm *form)
 {
     form = new CreateProjectForm(this, project);
     vbox->addWidget(form);
+}
+
+bool MainWindow::closePoject()
+{
+    if (project != nullptr && project->isSavedCopyShows())
+    {
+        disconnect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
+        delete project;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void MainWindow::on_action_open_triggered()
@@ -80,4 +118,14 @@ void MainWindow::showProjectNameAnditsState(QString project_name)
 {
     QString window_title = programName + " - " + project_name;
     this->setWindowTitle(window_title);
+}
+
+int MainWindow::tryToUnsavedClose()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Проект был изменен.");
+    msgBox.setInformativeText("Вы хотите его сохранить?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Save);
+    return msgBox.exec();
 }

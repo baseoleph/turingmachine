@@ -38,6 +38,7 @@ public:
     void saveProject();
     void setProjectName(QString project_name);
     TuringClass *turing = nullptr;
+    bool isSavedCopyShows();
 
 signals:
     void emitProjectNameSignal(QString project_name);
@@ -50,7 +51,6 @@ private:
     void setCurrentProjectAndPath(JsonParserClass *json);
     void projectChangedSaved(bool is_saved);
     void updateTuringSavedData();
-    bool isSavedCopyShows();
 
     JsonParserClass *createJson();
     void deleteJson(JsonParserClass *json);

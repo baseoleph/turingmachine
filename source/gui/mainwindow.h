@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QVBoxLayout>
-
+#include <QMessageBox>
 #include <QMainWindow>
 #include "core/turingclass.h"
 #include "project/projectfileclass.h"
@@ -34,6 +34,7 @@ private slots:
 
     void on_action_save_as_triggered();
     void showProjectNameAnditsState(QString project_name);
+
 private:
     Ui::MainWindow *ui;
     ProjectFileClass *project = nullptr;
@@ -51,6 +52,10 @@ private:
     void openFormInput(InputParametersForm *form);
     void openFormWorking(WorkingMachineForm *form);
 
+    bool closePoject();
     const QString programName = "Turing Machine";
+
+    void closeEvent(QCloseEvent *event);
+    int tryToUnsavedClose();
 };
 #endif // MAINWINDOW_H
