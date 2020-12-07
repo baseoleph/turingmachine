@@ -30,6 +30,8 @@ private slots:
 private:
     Ui::CreateProjectForm *ui;
     ProjectFileClass *proj;
+
+    void fillForms();
 };
 
 #endif // CREATEPROJECTFORM_H

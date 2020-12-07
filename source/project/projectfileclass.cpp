@@ -1,16 +1,10 @@
 #include "projectfileclass.h"
 
-ProjectFileClass::ProjectFileClass(QWidget *parent, bool is_new_project)
+ProjectFileClass::ProjectFileClass(QWidget *parent)
+    : QWidget(parent)
 {
-    this->parent = parent;
-    alphabet_whitout_empty = {"1", "*"};
-    named_states = {"aaa"};
-    states = {"aaa", "q1"};
-
-
-
-    this->is_new_proj = is_new_project;
     turing = new TuringClass;
+    current_project = turing->project_name;
 }
 
 ProjectFileClass::~ProjectFileClass()
@@ -18,40 +12,147 @@ ProjectFileClass::~ProjectFileClass()
     delete turing;
 }
 
+void ProjectFileClass::setAlphabet(QString arg1)
+{
+    turing->alphabet.clear();
+    turing->alphabet.append(empty_element);
+    turing->alphabet += arg1.split(" ", Qt::SkipEmptyParts);
+
+    projectChangedSaved(isSavedCopyShows());
+}
+
+QString ProjectFileClass::getAlphabet()
+{
+    QList<QString> temp = turing->alphabet;
+    temp.pop_front();
+    return temp.join(" ");
+}
+
+void ProjectFileClass::setStates(QString named_states, int len)
+{
+    createAutomaticStates(len);
+    overwriteNamedStates(named_states);
+
+    projectChangedSaved(isSavedCopyShows());
+}
+
+QString ProjectFileClass::getStates()
+{
+    return turing->states.join(" ");
+}
+
+int ProjectFileClass::getLenOfStates()
+{
+    return turing->states.size();
+}
+
 void ProjectFileClass::createAutomaticStates(int len)
 {
-    states.clear();
+    turing->states.clear();
     for (int i = 0; i < len; ++i)
     {
-        states.append("q" + QString::number(i));
+        turing->states.append("q" + QString::number(i));
     }
 }
 
-void ProjectFileClass::createStates(QString arg1)
+void ProjectFileClass::overwriteNamedStates(QString arg1)
 {
-    createAutomaticStates(len_of_states);
     QList<QString> temp_states = arg1.split(" ", Qt::SkipEmptyParts);
-    for (int i = 0; i < states.size() && i < temp_states.size(); ++i)
+    turing->named_states.clear();
+    for (int i = 0; i < turing->states.size() && i < temp_states.size(); ++i)
     {
-        states[i] = temp_states[i];
+        turing->states[i] = temp_states[i];
+        turing->named_states.append(temp_states[i]);
+    }
+
+    turing->unnamed_states.clear();
+    for (int i = qMin(turing->states.size(), temp_states.size()); i < turing->states.size(); ++i)
+    {
+        turing->unnamed_states.append(turing->states[i]);
     }
 }
 
 void ProjectFileClass::saveAsProject()
 {
-    updateTuringData();
-//    JsonParserClass *pars = new JsonParserClass(parent, turing);
-    JsonParserClass(parent, turing).saveData();
+    JsonParserClass *json = createJson();
+    json->saveAsData();
 }
 
-void ProjectFileClass::updateTuringData()
+void ProjectFileClass::saveProject()
 {
-    turing->alphabet.clear();
-    turing->alphabet.append(empty_element);
-    turing->alphabet += alphabet_whitout_empty;
+    JsonParserClass *json = createJson();
+    json->saveData(current_filetopath);
+}
 
-    turing->states.clear();
-    turing->states = states;
+void ProjectFileClass::setProjectName(QString project_name)
+{
+    turing->project_name = project_name;
+}
+
+void ProjectFileClass::projectSavedSlot(JsonParserClass *json)
+{
+    setCurrentProjectAndPath(json);
+    updateTuringSavedData();
+    emitProjectNameSignal(current_project);
+
+    deleteJson(json);
+}
+
+void ProjectFileClass::projectNOTSavedSlot(JsonParserClass *json)
+{
+    if (not isSavedCopyShows()) projectChangedSaved(false);
+
+    deleteJson(json);
+}
+
+void ProjectFileClass::setCurrentProjectAndPath(JsonParserClass *json)
+{
+    if (json->saveFileName != "")
+    {
+        current_filetopath = json->saveFileName;
+    }
+    current_project = current_filetopath.split("/").last().split(".").first();
+    turing->project_name = current_project;
+}
+
+void ProjectFileClass::projectChangedSaved(bool is_saved)
+{
+    QString title_status = current_project;
+    if (not is_saved)
+    {
+        title_status += " *";
+    }
+    emitProjectNameSignal(title_status);
+}
+
+void ProjectFileClass::updateTuringSavedData()
+{
+    turing_saved.alphabet = turing->alphabet;
+    turing_saved.states = turing->states;
+    turing_saved.project_name = turing->project_name;
+}
+
+bool ProjectFileClass::isSavedCopyShows()
+{
+    bool check_state = turing_saved.alphabet == turing->alphabet &&
+                       turing_saved.states == turing->states &&
+                       turing_saved.project_name == turing->project_name;
+    return check_state;
+}
+
+JsonParserClass *ProjectFileClass::createJson()
+{
+    JsonParserClass *json = new JsonParserClass(this, turing);
+    connect(json, &JsonParserClass::emitProjectSavedSignal, this, &ProjectFileClass::projectSavedSlot);
+    connect(json, &JsonParserClass::emitProjectNOTSavedSignal, this, &ProjectFileClass::projectNOTSavedSlot);
+    return json;
+}
+
+void ProjectFileClass::deleteJson(JsonParserClass *json)
+{
+    disconnect(json, &JsonParserClass::emitProjectSavedSignal, this, &ProjectFileClass::projectSavedSlot);
+    disconnect(json, &JsonParserClass::emitProjectNOTSavedSignal, this, &ProjectFileClass::projectNOTSavedSlot);
+    delete json;
 }
 
 

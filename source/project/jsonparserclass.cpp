@@ -1,9 +1,13 @@
 #include "jsonparserclass.h"
 
 JsonParserClass::JsonParserClass(QWidget *parent, TuringClass *turing)
+    : QWidget(parent)
 {
-    this->parent = parent;
     this->turing = turing;
+}
+
+JsonParserClass::~JsonParserClass()
+{
 }
 
 //void JsonParserClass::saveGeneralData()
@@ -62,45 +66,96 @@ JsonParserClass::JsonParserClass(QWidget *parent, TuringClass *turing)
 //    json_main[GENERAL] = json_main_general;
 //}
 
-void JsonParserClass::saveData()
+void JsonParserClass::findOutFileToPath()
+{
+    QString temp_file_name =  QFileDialog::getSaveFileName(this->parentWidget(),
+                                                            QObject::tr("Введите имя файла"),
+                                                            turing->project_name,
+                                                            QObject::tr("*.turing"));
+
+    if (temp_file_name != "")
+    {
+        saveFileName = temp_file_name;
+    }
+}
+
+QString JsonParserClass::getFileToPath(QString file_to_path)
+{
+    return file_to_path;
+}
+
+void JsonParserClass::saveAsData()
+{
+    findOutFileToPath();
+    writeData();
+}
+
+void JsonParserClass::saveData(QString file_to_path)
+{
+    if (file_to_path == "")
+    {
+        findOutFileToPath();
+    }
+    else
+    {
+        saveFileName = file_to_path;
+    }
+    writeData();
+}
+
+void JsonParserClass::writeData()
+{
+    if (saveFileName != "")
+    {
+        QJsonObject jsonproj = generateJsonObj();
+
+        // Узнаем директорию для сохранения файла
+        QFileInfo fileInfo(saveFileName);
+        // Делаем ее текущей
+        QDir::setCurrent(fileInfo.path());
+
+        QFile jsonFile(saveFileName);
+        if (!jsonFile.open(QIODevice::WriteOnly))
+        {
+            return;
+        }
+
+        // Записываем текущий объект Json в файл
+        jsonFile.write(QJsonDocument(jsonproj).toJson(QJsonDocument::Indented));
+        jsonFile.close();
+
+        emitProjectSavedSignal(this);
+    }
+    else
+    {
+        emitProjectNOTSavedSignal(this);
+    }
+}
+
+QJsonObject JsonParserClass::generateJsonObj()
 {
     QJsonObject jsonproj;
-    jsonproj["title"] = turing->project_name;
     QJsonArray js_alphabet;
     foreach (auto e, turing->alphabet)
     {
         js_alphabet.append(e);
     }
-    jsonproj["alphabet"] = js_alphabet;
+    jsonproj[s_alphabet] = js_alphabet;
 
-    QJsonArray js_states;
-    foreach (auto e, turing->states)
+    QJsonArray js_named_states;
+    foreach (auto e, turing->named_states)
     {
-        js_states.append(e);
+        js_named_states.append(e);
     }
-    jsonproj["states"] = js_states;
+    jsonproj[s_named_states] = js_named_states;
 
-
-
-    QString saveFileName = QFileDialog::getSaveFileName(parent,
-                                                        QObject::tr("Введите имя файла"),
-                                                        turing->project_name,
-                                                        QObject::tr("*.turing"));
-
-    // Узнаем директорию для сохранения файла
-    QFileInfo fileInfo(saveFileName);
-    // Делаем ее текущей
-    QDir::setCurrent(fileInfo.path());
-
-    QFile jsonFile(saveFileName);
-    if (!jsonFile.open(QIODevice::WriteOnly))
+    QJsonArray js_unnamed_states;
+    foreach (auto e, turing->unnamed_states)
     {
-        return;
+        js_unnamed_states.append(e);
     }
-
-    // Записываем текущий объект Json в файл
-    jsonFile.write(QJsonDocument(jsonproj).toJson(QJsonDocument::Indented));
-    jsonFile.close();
+    jsonproj[s_unnamed_states] = js_unnamed_states;
+    return jsonproj;
 }
 
 //void JsonParserClass::loadGeneralData(QJsonObject general_json)

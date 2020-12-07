@@ -9,9 +9,7 @@ CreateProjectForm::CreateProjectForm(QWidget *parent, ProjectFileClass *project)
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->proj = project;
 
-    ui->lineEdit_count_of_states->setText(QString::number(proj->states.size()));
-    ui->lineEdit_alphabet->setText(proj->alphabet_whitout_empty.join(" "));
-    ui->lineEdit_states->setText(proj->named_states.join(" "));
+    fillForms();
 }
 
 CreateProjectForm::~CreateProjectForm()
@@ -21,14 +19,15 @@ CreateProjectForm::~CreateProjectForm()
 
 void CreateProjectForm::on_lineEdit_alphabet_textChanged(const QString &arg1)
 {
-    proj->alphabet_whitout_empty = arg1.split(" ", Qt::SkipEmptyParts);
+    proj->setAlphabet(arg1);
 }
 
 void CreateProjectForm::on_lineEdit_count_of_states_textChanged(const QString &arg1)
 {
-    proj->len_of_states = arg1.toInt();
-    ui->lineEdit_states->textChanged(ui->lineEdit_states->text());
-    if (proj->len_of_states > 0)
+    int len_of_states = arg1.toInt();
+    proj->setStates(ui->lineEdit_states->text(), len_of_states);
+
+    if (len_of_states > 0)
     {
         ui->pushButton_next->setEnabled(true);
     }
@@ -40,9 +39,16 @@ void CreateProjectForm::on_lineEdit_count_of_states_textChanged(const QString &a
 
 void CreateProjectForm::on_lineEdit_states_textChanged(const QString &arg1)
 {
-    proj->createStates(arg1);
+    proj->setStates(arg1, ui->lineEdit_count_of_states->text().toInt());
 }
 
 void CreateProjectForm::on_pushButton_next_clicked()
 {
+}
+
+void CreateProjectForm::fillForms()
+{
+    ui->lineEdit_count_of_states->setText(QString::number(proj->getLenOfStates()));
+    ui->lineEdit_alphabet->setText(proj->getAlphabet());
+    ui->lineEdit_states->setText(proj->getStates());
 }

@@ -32,11 +32,13 @@ public:
     void setAction(int cur_q, int cur_a, int a, int q, int d);
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
 
-    QString project_name = "test";
+    QString project_name = "Unnamed project";
     // alphabet
     QList<QString> alphabet;
     // machine's state
     QList<QString> states;
+    QList<QString> named_states;
+    QList<QString> unnamed_states;
 
     QVector<QVector<Action>> table_of_actions;
     QVector<int> word;

@@ -11,23 +11,40 @@
 #include <QDir>
 #include "core/turingclass.h"
 
-class JsonParserClass
+class JsonParserClass : public QWidget
 {
+    Q_OBJECT
 public:
     JsonParserClass(QWidget *parent = nullptr, TuringClass *turing = nullptr);
+    ~JsonParserClass();
+
+    void findOutFileToPath();
+    QString getFileToPath(QString file_to_path);
+    void saveAsData();
+    void saveData(QString file_to_path = "");
+    void writeData();
+    QJsonObject generateJsonObj();
 
     void saveGeneralData();
     void saveBlocksData();
-    void saveData();
     void loadGeneralData(QJsonObject general_json);
     void loadBlocksData(QJsonArray blocks_json);
     void loadData(QString proj_name);
 
-    QWidget *parent;
+    QString saveFileName = "";
+signals:
+    void emitProjectSavedSignal(JsonParserClass *json);
+    void emitProjectNOTSavedSignal(JsonParserClass *json);
 
 private:
     QJsonObject json_main;
     TuringClass *turing;
+
+    QString s_title = "title";
+    QString s_alphabet = "alphabet";
+    QString s_states = "states";
+    QString s_named_states = "named states";
+    QString s_unnamed_states = "unnamed states";
 };
 
 #endif // JSONPARSERCLASS_H

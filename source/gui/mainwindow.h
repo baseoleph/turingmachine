@@ -33,7 +33,7 @@ private slots:
     void on_action_save_triggered();
 
     void on_action_save_as_triggered();
-
+    void showProjectNameAnditsState(QString project_name);
 private:
     Ui::MainWindow *ui;
     ProjectFileClass *project = nullptr;
@@ -50,5 +50,7 @@ private:
     void openFormCreate(CreateProjectForm *form);
     void openFormInput(InputParametersForm *form);
     void openFormWorking(WorkingMachineForm *form);
+
+    const QString programName = "Turing Machine";
 };
 #endif // MAINWINDOW_H
