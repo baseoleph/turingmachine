@@ -5,10 +5,14 @@ ProjectFileClass::ProjectFileClass(QWidget *parent)
 {
     turing = new TuringClass;
     current_project = turing->project_name;
+    turing->alphabet.clear();
+    turing->alphabet.append(empty_element);
+    updateTuringSavedData();
 }
 
 ProjectFileClass::~ProjectFileClass()
 {
+    if (not isSavedCopyShows()) qDebug() << "not saved";
     delete turing;
 }
 
@@ -120,7 +124,7 @@ void ProjectFileClass::projectChangedSaved(bool is_saved)
     QString title_status = current_project;
     if (not is_saved)
     {
-        title_status += " *";
+        title_status += "*";
     }
     emitProjectNameSignal(title_status);
 }

@@ -34,14 +34,16 @@ public:
 
     QString project_name = "Unnamed project";
     // alphabet
-    QList<QString> alphabet;
+    QList<QString> alphabet = {};
     // machine's state
-    QList<QString> states;
-    QList<QString> named_states;
-    QList<QString> unnamed_states;
+    QList<QString> states = {};
 
-    QVector<QVector<Action>> table_of_actions;
-    QVector<int> word;
+    // just for shows only named
+    QList<QString> named_states = {};
+    QList<QString> unnamed_states = {};
+
+    QVector<QVector<Action>> table_of_actions = {};
+    QVector<int> word = {};
     CurrentState machine_point;
 
 private:
@@ -52,8 +54,8 @@ private:
     // history of actions
     QVector<Action> vector_of_actions;
 
+    void debugTemplateTuring();
     void debugOutputWord();
-
     void checkEdges();
 };
 
