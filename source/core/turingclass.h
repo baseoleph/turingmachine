@@ -3,16 +3,7 @@
 
 #include <QList>
 #include <QDebug>
-
-struct Action
-{
-    // new letter under machine
-    int a = -1;
-    // new machine's state
-    int q = -1;
-    // direct
-    int d = 0;
-};
+#include "Action.h"
 
 struct CurrentState
 {
@@ -38,14 +29,18 @@ public:
     // machine's state
     QList<QString> states = {};
 
+    bool is_signature_fixed = false;
+
     // just for shows only named
     QList<QString> named_states = {};
     QList<QString> unnamed_states = {};
 
     QVector<QVector<Action>> table_of_actions = {};
     QVector<int> word = {};
+    QVector<QVector<int>> words = {};
     CurrentState machine_point;
 
+    void generateTableOfActions();
 private:
     // moves
     QList<QString> moves = {"Stay", "Left", "Right"};

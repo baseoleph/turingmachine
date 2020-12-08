@@ -14,6 +14,8 @@ struct turing_data
     QList<QString> alphabet = {};
     // machine's state
     QList<QString> states = {};
+
+    bool is_signature_fixed = false;
 };
 
 class ProjectFileClass : public QWidget
@@ -24,15 +26,28 @@ public:
     ~ProjectFileClass();
 
     void setAlphabet(QString arg1);
-    QString getAlphabet();
+    QString getAlphabetForChange();
 
     void setStates(QString named_states, int len);
     void createAutomaticStates(int len);
     void overwriteNamedStates(QString arg1);
-    QString getStates();
+    QString getStatesForChange();
     int getLenOfStates();
 
-    const QString empty_element = " ";
+    QString getAlphabetText();
+    QString getStatesText();
+    QList<QString> getAlphabet();
+    QList<QString> getStates();
+
+    void setSignatureState(bool is_fixed);
+    bool isSignatureFixed();
+
+    void addWord(QVector<int> w);
+    void setCurrentWord(int i);
+    void deleteCurrentWord(int i);
+    QVector<QVector<int>> getWords();
+
+    const QString empty_element = "empty";
 
     void openProject();
     void saveAsProject();
@@ -41,10 +56,12 @@ public:
     TuringClass *turing = nullptr;
     bool isSavedCopyShows();
 
+    QVector<QVector<Action>> *table_of_actions = nullptr;
 signals:
     void emitProjectNameSignal(QString project_name);
     void emitOpenFailedSignal();
     void emitOpenSucces();
+    void emitCloseEventSignal(QCloseEvent *event);
 
 private slots:
     void projectSavedSlot(JsonParserClass *json);
@@ -63,6 +80,8 @@ private:
     QString current_filetopath = "";
     QString current_project = "";
     turing_data turing_saved;
+
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // PROJECTFILECLASS_H

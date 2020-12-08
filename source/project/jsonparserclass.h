@@ -45,6 +45,8 @@ private:
     QString s_states = "states";
     QString s_named_states = "named states";
     QString s_unnamed_states = "unnamed states";
+    QString s_is_signature_fixed = "is_signature_fixed";
+    QString s_table = "table";
 };
 
 #endif // JSONPARSERCLASS_H

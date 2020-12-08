@@ -1,28 +1,16 @@
 #ifndef INPUTPARAMETERSFORM_H
 #define INPUTPARAMETERSFORM_H
 
-#define SIZE_FOR_ALLOC 10
 
 #include <QWidget>
 #include <QLabel>
 #include <QScrollArea>
-#include <QDebug>
+#include <QHBoxLayout>
 #include <QComboBox>
+#include <QDebug>
 
 #include "input_frames/cellform.h"
 #include "input_frames/letterform.h"
-
-#ifndef TURINGCLASS_H
-struct Action
-{
-    // new letter under machine
-    int a = -1;
-    // new machine's state
-    int q = -1;
-    // direct
-    int d = 0;
-};
-#endif
 
 namespace Ui {
 class InputParametersForm;
@@ -40,11 +28,6 @@ signals:
     void tableWordSignal(QVector<QVector<Action>> table, QVector<int> word);
 
 private slots:
-    void on_lineEdit_len_of_word_textChanged(const QString &arg1);
-
-    void on_pushButton_set_visible_word_clicked();
-
-    void on_pushButton_add_word_clicked();
 
     void on_pushButton_next_clicked();
 
@@ -60,13 +43,7 @@ private:
     QVector<QVector<int>> words;
     QVector<QVector<Action>> table_of_actions;
 
-    int len_of_word;
 
-    void setInstructions();
-    void setTableFrames();
-    void setWordFrames(int len);
-    void allocWordFrames(int size = SIZE_FOR_ALLOC);
-    void clearWordFrames();
 };
 
 #endif // INPUTPARAMETERSFORM_H

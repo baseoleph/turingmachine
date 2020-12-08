@@ -38,6 +38,21 @@ void TuringClass::setAlphabetStates(QList<QString> alphabet, QList<QString> stat
     this->states = states;
 }
 
+void TuringClass::generateTableOfActions()
+{
+    table_of_actions.clear();
+    for (int i = 0; i < states.size(); ++i)
+    {
+        QVector<Action> temp;
+        for (int j = 0; j < alphabet.size(); ++j)
+        {
+            Action act_temp;
+            temp.append(act_temp);
+        }
+        table_of_actions.append(temp);
+    }
+}
+
 void TuringClass::debugTemplateTuring()
 {
     alphabet = {"a0", "1", "*"};

@@ -184,6 +184,10 @@ int MainWindow::tryToUnsavedClose()
     return msgBox.exec();
 }
 
+
+
+
+
 void MainWindow::on_action_create_triggered()
 {
     if (current_form->close())

@@ -23,6 +23,7 @@ SOURCES += \
     project/projectfileclass.cpp
 
 HEADERS += \
+    core/Action.h \
     core/turingclass.h \
     gui/mainwindow.h \
     gui/sub_widgets/createprojectform.h \

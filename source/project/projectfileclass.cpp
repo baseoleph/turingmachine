@@ -3,10 +3,13 @@
 ProjectFileClass::ProjectFileClass(QWidget *parent)
     : QWidget(parent)
 {
+    this->setAttribute(Qt::WA_DeleteOnClose);
     turing = new TuringClass;
     current_project = turing->project_name;
     turing->alphabet.clear();
     turing->alphabet.append(empty_element);
+    turing->generateTableOfActions();
+    table_of_actions = &turing->table_of_actions;
     updateTuringSavedData();
 }
 
@@ -24,7 +27,7 @@ void ProjectFileClass::setAlphabet(QString arg1)
     projectChangedSaved(isSavedCopyShows());
 }
 
-QString ProjectFileClass::getAlphabet()
+QString ProjectFileClass::getAlphabetForChange()
 {
     QList<QString> temp = turing->alphabet;
     temp.pop_front();
@@ -39,7 +42,7 @@ void ProjectFileClass::setStates(QString named_states, int len)
     projectChangedSaved(isSavedCopyShows());
 }
 
-QString ProjectFileClass::getStates()
+QString ProjectFileClass::getStatesForChange()
 {
     return turing->named_states.join(" ");
 }
@@ -47,6 +50,79 @@ QString ProjectFileClass::getStates()
 int ProjectFileClass::getLenOfStates()
 {
     return turing->states.size();
+}
+
+QString ProjectFileClass::getAlphabetText()
+{
+    QString alphabet_text = "Алфавит = {";
+    alphabet_text += turing->alphabet.join(", ");
+    if (alphabet_text.lastIndexOf(",") != -1)
+    {
+        alphabet_text.remove(alphabet_text.lastIndexOf(","), 2);
+    }
+    alphabet_text += "}";
+    return alphabet_text;
+}
+
+QString ProjectFileClass::getStatesText()
+{
+    QString states_text = "Состояния = {";
+    states_text += turing->states.join(", ");
+    if (states_text.lastIndexOf(",") != -1)
+    {
+        states_text.remove(states_text.lastIndexOf(","), 2);
+    }
+    states_text += "}";
+    return states_text;
+}
+
+QList<QString> ProjectFileClass::getAlphabet()
+{
+    return turing->alphabet;
+}
+
+QList<QString> ProjectFileClass::getStates()
+{
+    return turing->states;
+}
+
+void ProjectFileClass::setSignatureState(bool is_fixed)
+{
+    turing->is_signature_fixed = is_fixed;
+    if (is_fixed)
+    {
+        turing->generateTableOfActions();
+        table_of_actions = &turing->table_of_actions;
+    }
+
+    projectChangedSaved(isSavedCopyShows());
+}
+
+bool ProjectFileClass::isSignatureFixed()
+{
+    return turing->is_signature_fixed;
+}
+
+void ProjectFileClass::addWord(QVector<int> w)
+{
+    turing->words.append(w);
+    setCurrentWord(turing->words.size()-1);
+}
+
+void ProjectFileClass::setCurrentWord(int i)
+{
+    qDebug() << i;
+//    turing->word = turing->words[i];
+}
+
+void ProjectFileClass::deleteCurrentWord(int i)
+{
+    turing->words.remove(i);
+}
+
+QVector<QVector<int> > ProjectFileClass::getWords()
+{
+    return turing->words;
 }
 
 void ProjectFileClass::openProject()
@@ -118,6 +194,10 @@ void ProjectFileClass::projectOpenedSlot(JsonParserClass *json)
 {
     setCurrentProjectAndPath(json);
     updateTuringSavedData();
+
+    turing->generateTableOfActions();
+    table_of_actions = &turing->table_of_actions;
+
     emitProjectNameSignal(current_project);
     emitOpenSucces();
 
@@ -155,13 +235,15 @@ void ProjectFileClass::updateTuringSavedData()
     turing_saved.alphabet = turing->alphabet;
     turing_saved.states = turing->states;
     turing_saved.project_name = turing->project_name;
+    turing_saved.is_signature_fixed = turing->is_signature_fixed;
 }
 
 bool ProjectFileClass::isSavedCopyShows()
 {
     bool check_state = turing_saved.alphabet == turing->alphabet &&
                        turing_saved.states == turing->states &&
-                       turing_saved.project_name == turing->project_name;
+                       turing_saved.project_name == turing->project_name &&
+                       turing_saved.is_signature_fixed == turing->is_signature_fixed;
     return check_state;
 }
 
@@ -184,6 +266,11 @@ void ProjectFileClass::deleteJson(JsonParserClass *json)
     disconnect(json, &JsonParserClass::emitProjectNOTOpenedSignal, this, &ProjectFileClass::projectNOTOpenedSlot);
 
     delete json;
+}
+
+void ProjectFileClass::closeEvent(QCloseEvent *event)
+{
+    emitCloseEventSignal(event);
 }
 
 

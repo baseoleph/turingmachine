@@ -133,6 +133,8 @@ void JsonParserClass::parseData(QJsonObject json)
         unnamed_states.append(e.toString());
     }
 
+    turing->is_signature_fixed = json.value(s_is_signature_fixed).toBool();
+
     turing->alphabet = alphabet;
     turing->named_states = named_states;
     turing->unnamed_states = unnamed_states;
@@ -163,5 +165,24 @@ QJsonObject JsonParserClass::generateJsonObj()
         js_unnamed_states.append(e);
     }
     jsonproj[s_unnamed_states] = js_unnamed_states;
+
+    jsonproj[s_is_signature_fixed] = turing->is_signature_fixed;
+
+    QJsonArray table1;
+    for (int i = 0; i < turing->states.size(); ++i)
+    {
+        QJsonArray table2;
+        for (int j = 0; j < turing->alphabet.size(); ++j)
+        {
+            QJsonArray table3;
+            table3.append(turing->table_of_actions[i][j].a);
+            table3.append(turing->table_of_actions[i][j].q);
+            table3.append(turing->table_of_actions[i][j].d);
+            table2.append(table3);
+        }
+        table1.append(table2);
+    }
+
+    jsonproj[s_table] = table1;
     return jsonproj;
 }
