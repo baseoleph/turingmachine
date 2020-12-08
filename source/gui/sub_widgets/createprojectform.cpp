@@ -14,6 +14,7 @@ CreateProjectForm::CreateProjectForm(QWidget *parent, ProjectFileClass *project)
 
 CreateProjectForm::~CreateProjectForm()
 {
+    emitCloseSignal(this);
     delete ui;
 }
 
@@ -51,4 +52,9 @@ void CreateProjectForm::fillForms()
     ui->lineEdit_count_of_states->setText(QString::number(proj->getLenOfStates()));
     ui->lineEdit_alphabet->setText(proj->getAlphabet());
     ui->lineEdit_states->setText(proj->getStates());
+}
+
+void CreateProjectForm::closeEvent(QCloseEvent *event)
+{
+    emitCloseEventSignal(event);
 }

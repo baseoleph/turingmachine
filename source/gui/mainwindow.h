@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QListWidget>
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QMainWindow>
@@ -35,6 +36,8 @@ private slots:
     void on_action_save_as_triggered();
     void showProjectNameAnditsState(QString project_name);
 
+    void on_action_create_triggered();
+
 private:
     Ui::MainWindow *ui;
     ProjectFileClass *project = nullptr;
@@ -44,6 +47,7 @@ private:
     CreateProjectForm *create_form = nullptr;
     InputParametersForm *input_form = nullptr;
     WorkingMachineForm *working_form = nullptr;
+    QWidget *current_form = nullptr;
 
     QVBoxLayout *vbox;
 
@@ -52,9 +56,16 @@ private:
     void openFormInput(InputParametersForm *form);
     void openFormWorking(WorkingMachineForm *form);
 
+    void closeFormManager(ManagerProjectForm *form);
+    void closeFormCreate(CreateProjectForm *form);
+    void closeFormInput(InputParametersForm *form);
+    void closeFormWorking(WorkingMachineForm *form);
+
+
     bool closePoject();
     const QString programName = "Turing Machine";
 
+    void myCloseEvent(QCloseEvent *event);
     void closeEvent(QCloseEvent *event);
     int tryToUnsavedClose();
 };

@@ -20,6 +20,7 @@ public:
 signals:
     void emitCreateProjectSignal();
     void emitOpenProjectSignal();
+    void emitCloseSignal(ManagerProjectForm *form);
 
 private slots:
     void on_pushButton_create_clicked();

@@ -12,6 +12,7 @@ ManagerProjectForm::ManagerProjectForm(QWidget *parent, ProjectFileClass *projec
 
 ManagerProjectForm::~ManagerProjectForm()
 {
+    emitCloseSignal(this);
     delete ui;
 }
 

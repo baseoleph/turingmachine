@@ -2,6 +2,7 @@
 #define CREATEPROJECTFORM_H
 
 #include <QWidget>
+#include <QCloseEvent>
 #include <QDebug>
 
 #include "project/projectfileclass.h"
@@ -20,6 +21,8 @@ public:
 
 signals:
     void setAlphabetStatesSignal(QList<QString> alphabet, QList<QString> states);
+    void emitCloseEventSignal(QCloseEvent *event);
+    void emitCloseSignal(CreateProjectForm *form);
 
 private slots:
     void on_lineEdit_alphabet_textChanged(const QString &arg1);
@@ -32,6 +35,7 @@ private:
     ProjectFileClass *proj;
 
     void fillForms();
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // CREATEPROJECTFORM_H

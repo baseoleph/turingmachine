@@ -22,27 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (closePoject())
-    {
-        event->accept();
-    }
-    else
-    {
-        int message_box_state = tryToUnsavedClose();
-        if (message_box_state == QMessageBox::Save)
-        {
-            on_action_save_triggered();
-            event->accept();
-        }
-        else if (message_box_state == QMessageBox::Discard)
-        {
-            event->accept();
-        }
-        else if (message_box_state == QMessageBox::Cancel)
-        {
-            event->ignore();
-        }
-    }
+    myCloseEvent(event);
 }
 
 void MainWindow::createProjectSlot()
@@ -50,7 +30,6 @@ void MainWindow::createProjectSlot()
     project = new ProjectFileClass(this);
     connect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
 
-    manager_form = nullptr;
     openFormCreate(create_form);
 }
 
@@ -76,19 +55,52 @@ void MainWindow::tableWordSlot(QVector<QVector<Action> > table, QVector<int> wor
 void MainWindow::openFormManager(ManagerProjectForm *form)
 {
     form = new ManagerProjectForm(this, project);
-    vbox->addWidget(form);
     connect(form, &ManagerProjectForm::emitCreateProjectSignal, this, &MainWindow::createProjectSlot);
+    connect(form, &ManagerProjectForm::emitCloseSignal, this, &MainWindow::closeFormManager);
+    vbox->addWidget(form);
+    current_form = qobject_cast<QWidget *>(vbox->itemAt(vbox->count()-1)->widget());
 }
 
 void MainWindow::openFormCreate(CreateProjectForm *form)
 {
     form = new CreateProjectForm(this, project);
+    connect(form, &CreateProjectForm::emitCloseEventSignal, this, &MainWindow::myCloseEvent);
+    connect(form, &CreateProjectForm::emitCloseSignal, this, &MainWindow::closeFormCreate);
     vbox->addWidget(form);
+    current_form = qobject_cast<QWidget *>(vbox->itemAt(vbox->count()-1)->widget());
+}
+
+void MainWindow::closeFormManager(ManagerProjectForm *form)
+{
+    disconnect(form, &ManagerProjectForm::emitCreateProjectSignal, this, &MainWindow::createProjectSlot);
+    disconnect(form, &ManagerProjectForm::emitCloseSignal, this, &MainWindow::closeFormManager);
+    current_form = nullptr;
+}
+
+void MainWindow::closeFormCreate(CreateProjectForm *form)
+{
+    disconnect(form, &CreateProjectForm::emitCloseEventSignal, this, &MainWindow::myCloseEvent);
+    disconnect(form, &CreateProjectForm::emitCloseSignal, this, &MainWindow::closeFormCreate);
+    current_form = nullptr;
+}
+
+void MainWindow::closeFormInput(InputParametersForm *form)
+{
+   Q_UNUSED(form)
+}
+
+void MainWindow::closeFormWorking(WorkingMachineForm *form)
+{
+   Q_UNUSED(form)
 }
 
 bool MainWindow::closePoject()
 {
-    if (project != nullptr && project->isSavedCopyShows())
+    if (project == nullptr)
+    {
+        return true;
+    }
+    else if (project->isSavedCopyShows())
     {
         disconnect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
         delete project;
@@ -97,6 +109,31 @@ bool MainWindow::closePoject()
     else
     {
         return false;
+    }
+}
+
+void MainWindow::myCloseEvent(QCloseEvent *event)
+{
+    if (closePoject())
+    {
+        event->accept();
+    }
+    else
+    {
+        int message_box_state = tryToUnsavedClose();
+        if (message_box_state == QMessageBox::Save)
+        {
+            on_action_save_triggered();
+            event->accept();
+        }
+        else if (message_box_state == QMessageBox::Discard)
+        {
+            event->accept();
+        }
+        else if (message_box_state == QMessageBox::Cancel)
+        {
+            event->ignore();
+        }
     }
 }
 
@@ -128,4 +165,10 @@ int MainWindow::tryToUnsavedClose()
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Save);
     return msgBox.exec();
+}
+
+void MainWindow::on_action_create_triggered()
+{
+    if (current_form->close())
+        createProjectSlot();
 }
