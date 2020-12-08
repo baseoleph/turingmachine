@@ -41,12 +41,18 @@ void ProjectFileClass::setStates(QString named_states, int len)
 
 QString ProjectFileClass::getStates()
 {
-    return turing->states.join(" ");
+    return turing->named_states.join(" ");
 }
 
 int ProjectFileClass::getLenOfStates()
 {
     return turing->states.size();
+}
+
+void ProjectFileClass::openProject()
+{
+    JsonParserClass *json = createJson();
+    json->loadData();
 }
 
 void ProjectFileClass::createAutomaticStates(int len)
@@ -108,11 +114,27 @@ void ProjectFileClass::projectNOTSavedSlot(JsonParserClass *json)
     deleteJson(json);
 }
 
+void ProjectFileClass::projectOpenedSlot(JsonParserClass *json)
+{
+    setCurrentProjectAndPath(json);
+    updateTuringSavedData();
+    emitProjectNameSignal(current_project);
+    emitOpenSucces();
+
+    deleteJson(json);
+}
+
+void ProjectFileClass::projectNOTOpenedSlot(JsonParserClass *json)
+{
+    deleteJson(json);
+    emitOpenFailedSignal();
+}
+
 void ProjectFileClass::setCurrentProjectAndPath(JsonParserClass *json)
 {
-    if (json->saveFileName != "")
+    if (json->path_to_project != "")
     {
-        current_filetopath = json->saveFileName;
+        current_filetopath = json->path_to_project;
     }
     current_project = current_filetopath.split("/").last().split(".").first();
     turing->project_name = current_project;
@@ -148,6 +170,9 @@ JsonParserClass *ProjectFileClass::createJson()
     JsonParserClass *json = new JsonParserClass(this, turing);
     connect(json, &JsonParserClass::emitProjectSavedSignal, this, &ProjectFileClass::projectSavedSlot);
     connect(json, &JsonParserClass::emitProjectNOTSavedSignal, this, &ProjectFileClass::projectNOTSavedSlot);
+    connect(json, &JsonParserClass::emitProjectOpenedSignal, this, &ProjectFileClass::projectOpenedSlot);
+    connect(json, &JsonParserClass::emitProjectNOTOpenedSignal, this, &ProjectFileClass::projectNOTOpenedSlot);
+
     return json;
 }
 
@@ -155,6 +180,9 @@ void ProjectFileClass::deleteJson(JsonParserClass *json)
 {
     disconnect(json, &JsonParserClass::emitProjectSavedSignal, this, &ProjectFileClass::projectSavedSlot);
     disconnect(json, &JsonParserClass::emitProjectNOTSavedSignal, this, &ProjectFileClass::projectNOTSavedSlot);
+    disconnect(json, &JsonParserClass::emitProjectOpenedSignal, this, &ProjectFileClass::projectOpenedSlot);
+    disconnect(json, &JsonParserClass::emitProjectNOTOpenedSignal, this, &ProjectFileClass::projectNOTOpenedSlot);
+
     delete json;
 }
 

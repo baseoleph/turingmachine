@@ -25,9 +25,9 @@ signals:
     void emitCloseSignal(CreateProjectForm *form);
 
 private slots:
-    void on_lineEdit_alphabet_textChanged(const QString &arg1);
-    void on_lineEdit_count_of_states_textChanged(const QString &arg1);
-    void on_lineEdit_states_textChanged(const QString &arg1);
+    void on_lineEdit_alphabet_textEdited(const QString &arg1);
+    void on_lineEdit_count_of_states_textEdited(const QString &arg1);
+    void on_lineEdit_states_textEdited(const QString &arg1);
     void on_pushButton_next_clicked();
 
 private:

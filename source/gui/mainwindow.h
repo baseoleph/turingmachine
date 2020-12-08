@@ -27,6 +27,8 @@ public:
 
 private slots:
     void createProjectSlot();
+    void openProjectSlot();
+
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
     void tableWordSlot(QVector<QVector<Action>> table, QVector<int> word);
     void on_action_open_triggered();
@@ -37,6 +39,9 @@ private slots:
     void showProjectNameAnditsState(QString project_name);
 
     void on_action_create_triggered();
+
+    void openFailedSlot();
+    void openSuccesSlot();
 
 private:
     Ui::MainWindow *ui;
@@ -60,7 +65,6 @@ private:
     void closeFormCreate(CreateProjectForm *form);
     void closeFormInput(InputParametersForm *form);
     void closeFormWorking(WorkingMachineForm *form);
-
 
     bool closePoject();
     const QString programName = "Turing Machine";

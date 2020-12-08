@@ -25,16 +25,16 @@ public:
     void writeData();
     QJsonObject generateJsonObj();
 
-    void saveGeneralData();
-    void saveBlocksData();
-    void loadGeneralData(QJsonObject general_json);
-    void loadBlocksData(QJsonArray blocks_json);
-    void loadData(QString proj_name);
 
-    QString saveFileName = "";
+    void loadData();
+    void parseData(QJsonObject json);
+
+    QString path_to_project = "";
 signals:
     void emitProjectSavedSignal(JsonParserClass *json);
     void emitProjectNOTSavedSignal(JsonParserClass *json);
+    void emitProjectOpenedSignal(JsonParserClass *json);
+    void emitProjectNOTOpenedSignal(JsonParserClass *json);
 
 private:
     QJsonObject json_main;

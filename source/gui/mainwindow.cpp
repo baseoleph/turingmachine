@@ -29,9 +29,21 @@ void MainWindow::createProjectSlot()
 {
     project = new ProjectFileClass(this);
     connect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
+    connect(project, &ProjectFileClass::emitOpenFailedSignal, this, &MainWindow::openFailedSlot);
+    connect(project, &ProjectFileClass::emitOpenSucces, this, &MainWindow::openSuccesSlot);
 
     openFormCreate(create_form);
 }
+
+void MainWindow::openProjectSlot()
+{
+    project = new ProjectFileClass(this);
+    connect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
+    connect(project, &ProjectFileClass::emitOpenFailedSignal, this, &MainWindow::openFailedSlot);
+    connect(project, &ProjectFileClass::emitOpenSucces, this, &MainWindow::openSuccesSlot);
+    project->openProject();
+}
+
 
 void MainWindow::setAlphabetStates(QList<QString> alphabet, QList<QString> states)
 {
@@ -56,6 +68,7 @@ void MainWindow::openFormManager(ManagerProjectForm *form)
 {
     form = new ManagerProjectForm(this, project);
     connect(form, &ManagerProjectForm::emitCreateProjectSignal, this, &MainWindow::createProjectSlot);
+    connect(form, &ManagerProjectForm::emitOpenProjectSignal, this, &MainWindow::openProjectSlot);
     connect(form, &ManagerProjectForm::emitCloseSignal, this, &MainWindow::closeFormManager);
     vbox->addWidget(form);
     current_form = qobject_cast<QWidget *>(vbox->itemAt(vbox->count()-1)->widget());
@@ -73,15 +86,14 @@ void MainWindow::openFormCreate(CreateProjectForm *form)
 void MainWindow::closeFormManager(ManagerProjectForm *form)
 {
     disconnect(form, &ManagerProjectForm::emitCreateProjectSignal, this, &MainWindow::createProjectSlot);
+    disconnect(form, &ManagerProjectForm::emitOpenProjectSignal, this, &MainWindow::openProjectSlot);
     disconnect(form, &ManagerProjectForm::emitCloseSignal, this, &MainWindow::closeFormManager);
-    current_form = nullptr;
 }
 
 void MainWindow::closeFormCreate(CreateProjectForm *form)
 {
     disconnect(form, &CreateProjectForm::emitCloseEventSignal, this, &MainWindow::myCloseEvent);
     disconnect(form, &CreateProjectForm::emitCloseSignal, this, &MainWindow::closeFormCreate);
-    current_form = nullptr;
 }
 
 void MainWindow::closeFormInput(InputParametersForm *form)
@@ -91,7 +103,7 @@ void MainWindow::closeFormInput(InputParametersForm *form)
 
 void MainWindow::closeFormWorking(WorkingMachineForm *form)
 {
-   Q_UNUSED(form)
+    Q_UNUSED(form)
 }
 
 bool MainWindow::closePoject()
@@ -103,7 +115,10 @@ bool MainWindow::closePoject()
     else if (project->isSavedCopyShows())
     {
         disconnect(project, &ProjectFileClass::emitProjectNameSignal, this, &MainWindow::showProjectNameAnditsState);
+        disconnect(project, &ProjectFileClass::emitOpenFailedSignal, this, &MainWindow::openFailedSlot);
+        disconnect(project, &ProjectFileClass::emitOpenSucces, this, &MainWindow::openSuccesSlot);
         delete project;
+        project = nullptr;
         return true;
     }
     else
@@ -139,6 +154,8 @@ void MainWindow::myCloseEvent(QCloseEvent *event)
 
 void MainWindow::on_action_open_triggered()
 {
+    if (current_form->close())
+        openProjectSlot();
 }
 
 void MainWindow::on_action_save_triggered()
@@ -171,4 +188,15 @@ void MainWindow::on_action_create_triggered()
 {
     if (current_form->close())
         createProjectSlot();
+}
+
+void MainWindow::openFailedSlot()
+{
+    current_form->close();
+    openFormManager(manager_form);
+}
+
+void MainWindow::openSuccesSlot()
+{
+    openFormCreate(create_form);
 }

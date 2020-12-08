@@ -21,3 +21,9 @@ void ManagerProjectForm::on_pushButton_create_clicked()
     emitCreateProjectSignal();
     this->close();
 }
+
+void ManagerProjectForm::on_pushButton_open_clicked()
+{
+    emitOpenProjectSignal();
+    this->close();
+}

@@ -34,6 +34,7 @@ public:
 
     const QString empty_element = " ";
 
+    void openProject();
     void saveAsProject();
     void saveProject();
     void setProjectName(QString project_name);
@@ -42,10 +43,14 @@ public:
 
 signals:
     void emitProjectNameSignal(QString project_name);
+    void emitOpenFailedSignal();
+    void emitOpenSucces();
 
 private slots:
     void projectSavedSlot(JsonParserClass *json);
     void projectNOTSavedSlot(JsonParserClass *json);
+    void projectOpenedSlot(JsonParserClass *json);
+    void projectNOTOpenedSlot(JsonParserClass *json);
 
 private:
     void setCurrentProjectAndPath(JsonParserClass *json);

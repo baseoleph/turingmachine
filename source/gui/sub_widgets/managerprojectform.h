@@ -25,6 +25,8 @@ signals:
 private slots:
     void on_pushButton_create_clicked();
 
+    void on_pushButton_open_clicked();
+
 private:
     Ui::ManagerProjectForm *ui;
     ProjectFileClass *proj;

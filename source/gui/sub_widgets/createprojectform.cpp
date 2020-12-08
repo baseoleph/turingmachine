@@ -18,12 +18,12 @@ CreateProjectForm::~CreateProjectForm()
     delete ui;
 }
 
-void CreateProjectForm::on_lineEdit_alphabet_textChanged(const QString &arg1)
+void CreateProjectForm::on_lineEdit_alphabet_textEdited(const QString &arg1)
 {
     proj->setAlphabet(arg1);
 }
 
-void CreateProjectForm::on_lineEdit_count_of_states_textChanged(const QString &arg1)
+void CreateProjectForm::on_lineEdit_count_of_states_textEdited(const QString &arg1)
 {
     int len_of_states = arg1.toInt();
     proj->setStates(ui->lineEdit_states->text(), len_of_states);
@@ -38,7 +38,7 @@ void CreateProjectForm::on_lineEdit_count_of_states_textChanged(const QString &a
     }
 }
 
-void CreateProjectForm::on_lineEdit_states_textChanged(const QString &arg1)
+void CreateProjectForm::on_lineEdit_states_textEdited(const QString &arg1)
 {
     proj->setStates(arg1, ui->lineEdit_count_of_states->text().toInt());
 }
