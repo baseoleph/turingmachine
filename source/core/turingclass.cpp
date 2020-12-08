@@ -33,9 +33,6 @@ void TuringClass::takeStep()
 bool TuringClass::isStepPossible()
 {
     Action cur_action = table_of_actions[machine_point_copy.q][word_copy[machine_point_copy.p]];
-//    qDebug() << cur_action.a;
-//    qDebug() << cur_action.q;
-//    qDebug() << cur_action.d;
     return ((cur_action.a != -1) && (cur_action.q != -1));
 }
 
@@ -112,10 +109,11 @@ void TuringClass::checkEdges()
         machine_point_copy.p = 1;
     }
 
-    if (word_copy.size() == machine_point_copy.p)
+    if (word_copy.size() == machine_point_copy.p+1)
     {
         word_copy.append(0);
     }
+
 
     int i = 0;
     while (i < machine_point_copy.p - 1)
@@ -131,7 +129,7 @@ void TuringClass::checkEdges()
         }
     }
 
-    while (word_copy.size() > machine_point_copy.p+1)
+    while (word_copy.size() > machine_point_copy.p+2)
     {
         if (word_copy.last() != 0)
         {

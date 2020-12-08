@@ -58,6 +58,8 @@ private slots:
 
     void on_pushButton_change_tables_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::CreateProjectForm *ui;
     ProjectFileClass *proj;

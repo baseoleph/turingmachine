@@ -56,6 +56,7 @@ void CreateProjectForm::fillForms()
     if (proj->isSignatureFixed())
     {
         ui->widget_set_signature->hide();
+        ui->widget_tables_words->show();
 
         ui->pushButton_fix_signature->hide();
         ui->pushButton_signature_change->show();
@@ -71,9 +72,9 @@ void CreateProjectForm::fillForms()
     }
     else
     {
-        ui->pushButton_signature_change->click();
+//        ui->pushButton_signature_change->click();
         ui->widget_scene->hide();
-
+        ui->widget_tables_words->hide();
         ui->widget_set_signature->show();
 
         ui->lineEdit_count_of_states->setText(QString::number(proj->getLenOfStates()));
@@ -355,4 +356,15 @@ void CreateProjectForm::on_pushButton_change_tables_clicked()
     ui->label_word->clear();
 
     if (scene != nullptr) delete scene;
+}
+
+void CreateProjectForm::on_pushButton_2_clicked()
+{
+    proj->toStart();
+    proj->checkEdges();
+    if (proj->stepPossible())
+    {
+        scene->showState();
+        ui->pushButton_step->setEnabled(true);
+    }
 }

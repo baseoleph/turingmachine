@@ -150,9 +150,8 @@ void MainWindow::on_action_save_as_triggered()
 
 void MainWindow::showProjectNameAnditsState(QString project_name)
 {
-//    QString window_title = programName + " - " + project_name;
-//    QString window_title = programName;
-//    this->setWindowTitle(window_title);
+    QString window_title = programName + " - " + project_name;
+    this->setWindowTitle(window_title);
 }
 
 int MainWindow::tryToUnsavedClose()

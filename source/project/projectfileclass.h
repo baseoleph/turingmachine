@@ -56,7 +56,7 @@ public:
     QString getWord();
     QVector<QVector<int>> getWords();
 
-    const QString empty_element = "\\0";
+    const QString empty_element = "zero";
 
     void openProject();
     void saveAsProject();
