@@ -140,6 +140,34 @@ void JsonParserClass::parseData(QJsonObject json)
     turing->unnamed_states = unnamed_states;
     turing->states = named_states;
     turing->states += unnamed_states;
+    turing->generateTableOfActions();
+
+    QJsonArray js_table1 = json.value(s_table).toArray();
+    for (int i = 0; i < js_table1.size(); ++i)
+    {
+        QJsonArray js_table2 = js_table1[i].toArray();
+        for (int j = 0; j < js_table2.size(); ++j)
+        {
+            QJsonArray js_table3 = js_table2[j].toArray();
+            turing->table_of_actions[i][j].a = js_table3[0].toInt();
+            turing->table_of_actions[i][j].q = js_table3[1].toInt();
+            turing->table_of_actions[i][j].d = js_table3[2].toInt();
+            qDebug() << "js " << turing->table_of_actions[i][j].a;
+        }
+    }
+
+    turing->words.clear();
+    QJsonArray words = json.value(s_words).toArray();
+    for (int i = 0; i < words.size(); ++i)
+    {
+        QJsonArray word = words[i].toArray();
+        QVector<int> tem_word;
+        for (int j = 0; j < word.size(); ++j)
+        {
+            tem_word.append(word[j].toInt());
+        }
+        turing->words.append(tem_word);
+    }
 }
 
 QJsonObject JsonParserClass::generateJsonObj()
@@ -184,5 +212,18 @@ QJsonObject JsonParserClass::generateJsonObj()
     }
 
     jsonproj[s_table] = table1;
+
+    QJsonArray words;
+    for (int i = 0; i < turing->words.size(); ++i)
+    {
+        QJsonArray word;
+        for (int j = 0; j < turing->words[i].size(); ++j)
+        {
+            word.append(turing->words[i][j]);
+        }
+        words.append(word);
+    }
+
+    jsonproj[s_words] = words;
     return jsonproj;
 }

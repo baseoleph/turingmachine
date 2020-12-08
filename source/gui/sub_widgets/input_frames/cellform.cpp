@@ -41,16 +41,23 @@ CellForm::~CellForm()
     delete ui;
 }
 
+void CellForm::updateComboBoxes()
+{
+    ui->comboBox_a->setCurrentIndex(a_state+1);
+    ui->comboBox_q->setCurrentIndex(q_state+1);
+    ui->comboBox_d->setCurrentIndex(d_state);
+}
+
 void CellForm::on_comboBox_q_activated(int index)
 {
     q_state = index-1;
-    act->q = index;
+    act->q = q_state;
 }
 
 void CellForm::on_comboBox_a_activated(int index)
 {
     a_state = index-1;
-    act->a = index;
+    act->a = a_state;
 }
 
 void CellForm::on_comboBox_d_activated(int index)

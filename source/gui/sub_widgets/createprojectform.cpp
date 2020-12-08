@@ -57,6 +57,8 @@ void CreateProjectForm::fillForms()
 
         ui->scrollArea_3->show();
         generateTable();
+        updateComboWords();
+        updateTable();
     }
     else
     {
@@ -146,6 +148,21 @@ void CreateProjectForm::generateTable()
         for (int j = 0; j < table_frame[i].size(); ++j)
         {
             ui->gridLayout->addWidget(table_frame[i][j], i, j);
+        }
+    }
+}
+
+void CreateProjectForm::updateTable()
+{
+    for (int i = 0; i < table_instructions.size(); ++i)
+    {
+        for (int j = 0; j < table_instructions[i].size(); ++j)
+        {
+            qDebug() << proj->getTable()[i][j].a;
+            table_instructions[i][j]->a_state = proj->getTable()[i][j].a;
+            table_instructions[i][j]->q_state = proj->getTable()[i][j].q;
+            table_instructions[i][j]->d_state = proj->getTable()[i][j].d;
+            table_instructions[i][j]->updateComboBoxes();
         }
     }
 }

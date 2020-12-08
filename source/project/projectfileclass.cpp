@@ -195,7 +195,6 @@ void ProjectFileClass::projectOpenedSlot(JsonParserClass *json)
     setCurrentProjectAndPath(json);
     updateTuringSavedData();
 
-    turing->generateTableOfActions();
     table_of_actions = &turing->table_of_actions;
 
     emitProjectNameSignal(current_project);
@@ -245,6 +244,11 @@ bool ProjectFileClass::isSavedCopyShows()
                        turing_saved.project_name == turing->project_name &&
                        turing_saved.is_signature_fixed == turing->is_signature_fixed;
     return check_state;
+}
+
+QVector<QVector<Action> > ProjectFileClass::getTable()
+{
+    return turing->table_of_actions;
 }
 
 JsonParserClass *ProjectFileClass::createJson()

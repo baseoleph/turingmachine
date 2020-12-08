@@ -61,6 +61,7 @@ private:
     void setInstructions();
     void setTableFrames();
     void generateTable();
+    void updateTable();
     void clearTable();
 
     QList<QString> alphabet;
@@ -79,7 +80,6 @@ private:
     void setWordFrames(int len);
     void allocWordFrames(int size = SIZE_FOR_ALLOC);
     void clearWordFrames();
-
     void updateComboWords();
 };
 

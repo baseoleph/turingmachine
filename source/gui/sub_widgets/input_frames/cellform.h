@@ -21,6 +21,8 @@ public:
     int a_state = 0;
     int q_state = 0;
     int d_state = 0;
+    Action *act;
+    void updateComboBoxes();
 
 private slots:
     void on_comboBox_q_activated(int index);
@@ -31,7 +33,6 @@ private slots:
 
 private:
     Ui::CellForm *ui;
-    Action *act;
 
 };
 

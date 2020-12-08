@@ -57,6 +57,7 @@ public:
     bool isSavedCopyShows();
 
     QVector<QVector<Action>> *table_of_actions = nullptr;
+    QVector<QVector<Action>> getTable();
 signals:
     void emitProjectNameSignal(QString project_name);
     void emitOpenFailedSignal();
