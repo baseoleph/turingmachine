@@ -28,6 +28,7 @@ private:
     QVector<QGraphicsRectItem *> rect_word;
     QVector<QGraphicsSimpleTextItem *> text_word;
     QGraphicsPathItem *pointer_of_machine;
+    QGraphicsTextItem *pointer_text;
     int width;
     int height;
 

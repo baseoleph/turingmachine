@@ -18,6 +18,33 @@ ProjectFileClass::~ProjectFileClass()
     delete turing;
 }
 
+bool ProjectFileClass::takeStep()
+{
+    turing->takeStep();
+
+    return turing->isStepPossible();
+}
+
+bool ProjectFileClass::stepPossible()
+{
+    return turing->isStepPossible();
+}
+
+void ProjectFileClass::toStart()
+{
+    turing->setStart();
+}
+
+void ProjectFileClass::checkEdges()
+{
+    turing->checkEdges();
+}
+
+TuringClass *ProjectFileClass::getTuring()
+{
+    return turing;
+}
+
 void ProjectFileClass::setAlphabet(QString arg1)
 {
     turing->alphabet.clear();
@@ -56,10 +83,6 @@ QString ProjectFileClass::getAlphabetText()
 {
     QString alphabet_text = "Алфавит = {";
     alphabet_text += turing->alphabet.join(", ");
-    if (alphabet_text.lastIndexOf(",") != -1)
-    {
-        alphabet_text.remove(alphabet_text.lastIndexOf(","), 2);
-    }
     alphabet_text += "}";
     return alphabet_text;
 }
@@ -68,10 +91,6 @@ QString ProjectFileClass::getStatesText()
 {
     QString states_text = "Состояния = {";
     states_text += turing->states.join(", ");
-    if (states_text.lastIndexOf(",") != -1)
-    {
-        states_text.remove(states_text.lastIndexOf(","), 2);
-    }
     states_text += "}";
     return states_text;
 }
@@ -93,6 +112,7 @@ void ProjectFileClass::setSignatureState(bool is_fixed)
     {
         turing->generateTableOfActions();
         table_of_actions = &turing->table_of_actions;
+        turing->words.clear();
     }
 
     projectChangedSaved(isSavedCopyShows());
@@ -103,6 +123,11 @@ bool ProjectFileClass::isSignatureFixed()
     return turing->is_signature_fixed;
 }
 
+void ProjectFileClass::clearWordsAndTable()
+{
+    turing->table_of_actions.clear();
+}
+
 void ProjectFileClass::addWord(QVector<int> w)
 {
     turing->words.append(w);
@@ -111,13 +136,24 @@ void ProjectFileClass::addWord(QVector<int> w)
 
 void ProjectFileClass::setCurrentWord(int i)
 {
-    qDebug() << i;
-//    turing->word = turing->words[i];
+    turing->word = turing->words[i];
 }
 
 void ProjectFileClass::deleteCurrentWord(int i)
 {
     turing->words.remove(i);
+}
+
+QString ProjectFileClass::getWord()
+{
+    QString word_t = "Слово = { ";
+    foreach (auto e, turing->word)
+    {
+        word_t += turing->alphabet[e] + " ";
+    }
+    word_t.remove(word_t.size()-1);
+    word_t += "}";
+    return word_t;
 }
 
 QVector<QVector<int> > ProjectFileClass::getWords()

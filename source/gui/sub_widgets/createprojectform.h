@@ -14,6 +14,7 @@
 #include "project/projectfileclass.h"
 #include "input_frames/cellform.h"
 #include "input_frames/letterform.h"
+#include "scene.h"
 
 namespace Ui {
 class CreateProjectForm;
@@ -51,9 +52,17 @@ private slots:
 
     void on_comboBox_words_activated(int index);
 
+    void on_pushButton_fix_tables_clicked();
+    void on_pushButton_step_clicked();
+    void setUpScene();
+
+    void on_pushButton_change_tables_clicked();
+
 private:
     Ui::CreateProjectForm *ui;
     ProjectFileClass *proj;
+    Scene *scene = nullptr;
+    QTimer *tm;
 
     void fillForms();
     void closeEvent(QCloseEvent *event);
@@ -63,6 +72,7 @@ private:
     void generateTable();
     void updateTable();
     void clearTable();
+    void clearComboBoxes();
 
     QList<QString> alphabet;
     QList<QString> states;
@@ -81,6 +91,7 @@ private:
     void allocWordFrames(int size = SIZE_FOR_ALLOC);
     void clearWordFrames();
     void updateComboWords();
+
 };
 
 #endif // CREATEPROJECTFORM_H

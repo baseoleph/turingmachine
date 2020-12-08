@@ -29,8 +29,6 @@ private slots:
     void createProjectSlot();
     void openProjectSlot();
 
-    void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
-    void tableWordSlot(QVector<QVector<Action>> table, QVector<int> word);
     void on_action_open_triggered();
 
     void on_action_save_triggered();

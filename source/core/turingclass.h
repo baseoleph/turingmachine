@@ -19,7 +19,9 @@ class TuringClass
 public:
     TuringClass();
 
+    void setStart();
     void takeStep();
+    bool isStepPossible();
     void setAction(int cur_q, int cur_a, int a, int q, int d);
     void setAlphabetStates(QList<QString> alphabet, QList<QString> states);
 
@@ -36,11 +38,14 @@ public:
     QList<QString> unnamed_states = {};
 
     QVector<QVector<Action>> table_of_actions = {};
+    QVector<int> word_copy = {};
     QVector<int> word = {};
     QVector<QVector<int>> words = {};
     CurrentState machine_point;
+    CurrentState machine_point_copy;
 
     void generateTableOfActions();
+    void checkEdges();
 private:
     // moves
     QList<QString> moves = {"Stay", "Left", "Right"};
@@ -51,7 +56,6 @@ private:
 
     void debugTemplateTuring();
     void debugOutputWord();
-    void checkEdges();
 };
 
 #endif // TURINGCLASS_H

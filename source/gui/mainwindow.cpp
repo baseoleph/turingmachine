@@ -44,26 +44,6 @@ void MainWindow::openProjectSlot()
     project->openProject();
 }
 
-
-void MainWindow::setAlphabetStates(QList<QString> alphabet, QList<QString> states)
-{
-    turing.setAlphabetStates(alphabet, states);
-    vbox->removeWidget(create_form);
-    create_form->close();
-
-    input_form = new InputParametersForm(this, alphabet, states);
-    vbox->addWidget(input_form);
-}
-
-void MainWindow::tableWordSlot(QVector<QVector<Action> > table, QVector<int> word)
-{
-    turing.table_of_actions = table;
-    turing.word = word;
-
-    vbox->removeWidget(input_form);
-    input_form->close();
-}
-
 void MainWindow::openFormManager(ManagerProjectForm *form)
 {
     form = new ManagerProjectForm(this, project);
@@ -170,8 +150,9 @@ void MainWindow::on_action_save_as_triggered()
 
 void MainWindow::showProjectNameAnditsState(QString project_name)
 {
-    QString window_title = programName + " - " + project_name;
-    this->setWindowTitle(window_title);
+//    QString window_title = programName + " - " + project_name;
+//    QString window_title = programName;
+//    this->setWindowTitle(window_title);
 }
 
 int MainWindow::tryToUnsavedClose()

@@ -152,7 +152,6 @@ void JsonParserClass::parseData(QJsonObject json)
             turing->table_of_actions[i][j].a = js_table3[0].toInt();
             turing->table_of_actions[i][j].q = js_table3[1].toInt();
             turing->table_of_actions[i][j].d = js_table3[2].toInt();
-            qDebug() << "js " << turing->table_of_actions[i][j].a;
         }
     }
 

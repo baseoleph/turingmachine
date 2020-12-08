@@ -25,6 +25,12 @@ public:
     explicit ProjectFileClass(QWidget *parent = nullptr);
     ~ProjectFileClass();
 
+    bool takeStep();
+    bool stepPossible();
+    void toStart();
+
+    void checkEdges();
+    TuringClass *getTuring();
     void setAlphabet(QString arg1);
     QString getAlphabetForChange();
 
@@ -42,12 +48,15 @@ public:
     void setSignatureState(bool is_fixed);
     bool isSignatureFixed();
 
+    void clearWordsAndTable();
+
     void addWord(QVector<int> w);
     void setCurrentWord(int i);
     void deleteCurrentWord(int i);
+    QString getWord();
     QVector<QVector<int>> getWords();
 
-    const QString empty_element = "empty";
+    const QString empty_element = "\\0";
 
     void openProject();
     void saveAsProject();

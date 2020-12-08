@@ -19,8 +19,6 @@ public:
     ~WorkingMachineForm();
 
 private slots:
-    void on_pushButton_step_clicked();
-    void setUpScene();
 
 private:
     Ui::WorkingMachineForm *ui;

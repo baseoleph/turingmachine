@@ -4,25 +4,39 @@ TuringClass::TuringClass()
 {
 }
 
+void TuringClass::setStart()
+{
+    word_copy = word;
+    machine_point_copy = machine_point;
+}
+
 void TuringClass::takeStep()
 {
-    Action cur_action = table_of_actions[machine_point.q][word[machine_point.p]];
-    if (cur_action.a != -1) word[machine_point.p] = cur_action.a;
-    if (cur_action.q != -1) machine_point.q = cur_action.q;
+    Action cur_action = table_of_actions[machine_point_copy.q][word_copy[machine_point_copy.p]];
+    if (cur_action.a != -1) word_copy[machine_point_copy.p] = cur_action.a;
+    if (cur_action.q != -1) machine_point_copy.q = cur_action.q;
     if (cur_action.d != 0)
     {
         if (cur_action.d == 1)
         {
-            --machine_point.p;
+            --machine_point_copy.p;
         }
         else
         {
-            ++machine_point.p;
+            ++machine_point_copy.p;
         }
     }
 
     checkEdges();
-    debugOutputWord();
+}
+
+bool TuringClass::isStepPossible()
+{
+    Action cur_action = table_of_actions[machine_point_copy.q][word_copy[machine_point_copy.p]];
+//    qDebug() << cur_action.a;
+//    qDebug() << cur_action.q;
+//    qDebug() << cur_action.d;
+    return ((cur_action.a != -1) && (cur_action.q != -1));
 }
 
 void TuringClass::setAction(int cur_q, int cur_a, int a, int q, int d)
@@ -76,57 +90,56 @@ void TuringClass::debugTemplateTuring()
     setAction(1, 1, 2, 0, 2);
     setAction(0, 0, 0, 0, 2);
 
-    word = {2, 1, 2, 1, 1, 1};
+    word_copy = {2, 1, 2, 1, 1, 1};
     checkEdges();
 }
 
 void TuringClass::debugOutputWord()
 {
     QList<QString> output;
-    foreach (auto e, word)
+    foreach (auto e, word_copy)
     {
         output.append(alphabet[e]);
     }
-    output.insert(machine_point.p, states[machine_point.q]);
-    qDebug() << output;
+    output.insert(machine_point_copy.p, states[machine_point_copy.q]);
 }
 
 void TuringClass::checkEdges()
 {
-    if (machine_point.p == 0)
+    if (machine_point_copy.p == 0)
     {
-        word.push_front(0);
-        machine_point.p = 1;
+        word_copy.push_front(0);
+        machine_point_copy.p = 1;
     }
 
-    if (word.size() == machine_point.p)
+    if (word_copy.size() == machine_point_copy.p)
     {
-        word.append(0);
+        word_copy.append(0);
     }
 
     int i = 0;
-    while (i < machine_point.p - 1)
+    while (i < machine_point_copy.p - 1)
     {
-        if (word[i] != 0)
+        if (word_copy[i] != 0)
         {
             break;
         }
         else
         {
-            word.removeFirst();
-            --machine_point.p;
+            word_copy.removeFirst();
+            --machine_point_copy.p;
         }
     }
 
-    while (word.size() > machine_point.p+1)
+    while (word_copy.size() > machine_point_copy.p+1)
     {
-        if (word.last() != 0)
+        if (word_copy.last() != 0)
         {
             break;
         }
         else
         {
-            word.removeLast();
+            word_copy.removeLast();
         }
     }
 }

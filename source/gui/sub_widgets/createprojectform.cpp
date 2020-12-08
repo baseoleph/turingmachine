@@ -9,12 +9,20 @@ CreateProjectForm::CreateProjectForm(QWidget *parent, ProjectFileClass *project)
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->proj = project;
 
+    ui->pushButton_change_tables->hide();
+    ui->pushButton_fix_tables->hide();
+    ui->widget_scene->hide();
     fillForms();
+
+//    tm = new QTimer();
+//    connect(tm, &QTimer::timeout, this, &CreateProjectForm::setUpScene);
+//    tm->start(100);
 }
 
 CreateProjectForm::~CreateProjectForm()
 {
     emitCloseSignal(this);
+    if (scene != nullptr) delete scene;
     delete ui;
 }
 
@@ -59,9 +67,13 @@ void CreateProjectForm::fillForms()
         generateTable();
         updateComboWords();
         updateTable();
+        ui->pushButton_fix_tables->show();
     }
     else
     {
+        ui->pushButton_signature_change->click();
+        ui->widget_scene->hide();
+
         ui->widget_set_signature->show();
 
         ui->lineEdit_count_of_states->setText(QString::number(proj->getLenOfStates()));
@@ -83,6 +95,8 @@ void CreateProjectForm::fillForms()
 
         ui->scrollArea_3->hide();
         clearTable();
+        clearComboBoxes();
+        ui->lineEdit_len_of_word->clear();
     }
 }
 
@@ -113,6 +127,7 @@ void CreateProjectForm::setTableFrames()
         {
             QFrame *frame = new QFrame();
             frame->setLayout(new QHBoxLayout);
+            frame->setMaximumSize(2000, 50);
             frame->setStyleSheet("QFrame{border: 1px solid black;}");
             tmp.append(frame);
 
@@ -150,6 +165,8 @@ void CreateProjectForm::generateTable()
             ui->gridLayout->addWidget(table_frame[i][j], i, j);
         }
     }
+
+    ui->widget_table->setMinimumSize(0, table_frame.size()*table_frame[0][0]->height()+15);
 }
 
 void CreateProjectForm::updateTable()
@@ -158,7 +175,6 @@ void CreateProjectForm::updateTable()
     {
         for (int j = 0; j < table_instructions[i].size(); ++j)
         {
-            qDebug() << proj->getTable()[i][j].a;
             table_instructions[i][j]->a_state = proj->getTable()[i][j].a;
             table_instructions[i][j]->q_state = proj->getTable()[i][j].q;
             table_instructions[i][j]->d_state = proj->getTable()[i][j].d;
@@ -186,6 +202,16 @@ void CreateProjectForm::clearTable()
         }
     }
     table_frame.clear();
+}
+
+void CreateProjectForm::clearComboBoxes()
+{
+    foreach (auto e1, vector_word)
+    {
+        delete e1;
+    }
+    vector_word.clear();
+    visible_letters.clear();
 }
 
 void CreateProjectForm::setWordFrames(int len)
@@ -284,4 +310,49 @@ void CreateProjectForm::on_pushButton_delete_current_word_clicked()
 void CreateProjectForm::on_comboBox_words_activated(int index)
 {
     proj->setCurrentWord(index);
+}
+
+void CreateProjectForm::on_pushButton_fix_tables_clicked()
+{
+    proj->setCurrentWord(ui->comboBox_words->currentIndex());
+    ui->pushButton_fix_tables->hide();
+    ui->pushButton_change_tables->show();
+    ui->widget_words->hide();
+    ui->widget_table->setEnabled(false);
+    ui->label_word->setText(proj->getWord());
+
+    ui->widget_scene->show();
+    proj->toStart();
+    proj->checkEdges();
+    if (proj->stepPossible()) ui->pushButton_step->setEnabled(true);
+    setUpScene();
+}
+
+void CreateProjectForm::on_pushButton_step_clicked()
+{
+    if (not proj->takeStep())
+    {
+        ui->pushButton_step->setEnabled(false);
+    }
+    scene->showState();
+}
+
+void CreateProjectForm::setUpScene()
+{
+    scene = new Scene(ui->graphicsView->width()-10, ui->graphicsView->height()-10, proj->getTuring());
+
+    ui->graphicsView->setScene(scene);
+}
+
+void CreateProjectForm::on_pushButton_change_tables_clicked()
+{
+    proj->toStart();
+    ui->pushButton_fix_tables->show();
+    ui->pushButton_change_tables->hide();
+    ui->widget_words->show();
+    ui->widget_scene->hide();
+    ui->widget_table->setEnabled(true);
+    ui->label_word->clear();
+
+    if (scene != nullptr) delete scene;
 }
