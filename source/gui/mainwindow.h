@@ -40,6 +40,7 @@ private slots:
 
     void openFailedSlot();
     void openSuccesSlot();
+    void statusBarSlot(QString str1);
 
 private:
     Ui::MainWindow *ui;

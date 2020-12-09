@@ -35,6 +35,11 @@ void ProjectFileClass::toStart()
     turing->setStart();
 }
 
+int ProjectFileClass::getSteps()
+{
+    return turing->step;
+}
+
 void ProjectFileClass::checkEdges()
 {
     turing->checkEdges();

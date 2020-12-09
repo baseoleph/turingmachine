@@ -335,6 +335,7 @@ void CreateProjectForm::on_pushButton_step_clicked()
     {
         ui->pushButton_step->setEnabled(false);
     }
+    emitStatusBarSignal(QString::number(proj->getSteps()));
     scene->showState();
 }
 
@@ -367,4 +368,19 @@ void CreateProjectForm::on_pushButton_2_clicked()
         scene->showState();
         ui->pushButton_step->setEnabled(true);
     }
+}
+
+void CreateProjectForm::on_pushButton_end_clicked()
+{
+    for (int i = 0; i < 1000000 && proj->takeStep(); ++i);
+
+    if (proj->stepPossible())
+    {
+        emitStatusBarSignal("Было более милиона шагов");
+    }
+    else
+    {
+        emitStatusBarSignal(QString::number(proj->getSteps()));
+    }
+    scene->showState();
 }

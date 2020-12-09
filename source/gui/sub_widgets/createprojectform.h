@@ -32,6 +32,7 @@ signals:
     void setAlphabetStatesSignal(QList<QString> alphabet, QList<QString> states);
     void emitCloseEventSignal(QCloseEvent *event);
     void emitCloseSignal(CreateProjectForm *form);
+    void emitStatusBarSignal(QString arg1);
 
 private slots:
     void on_lineEdit_alphabet_textEdited(const QString &arg1);
@@ -59,6 +60,8 @@ private slots:
     void on_pushButton_change_tables_clicked();
 
     void on_pushButton_2_clicked();
+
+    void on_pushButton_end_clicked();
 
 private:
     Ui::CreateProjectForm *ui;

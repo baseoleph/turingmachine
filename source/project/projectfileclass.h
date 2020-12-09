@@ -28,6 +28,7 @@ public:
     bool takeStep();
     bool stepPossible();
     void toStart();
+    int getSteps();
 
     void checkEdges();
     TuringClass *getTuring();

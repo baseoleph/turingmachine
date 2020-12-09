@@ -6,6 +6,7 @@ TuringClass::TuringClass()
 
 void TuringClass::setStart()
 {
+    step = 0;
     word_copy = word;
     machine_point_copy = machine_point;
 }
@@ -13,6 +14,7 @@ void TuringClass::setStart()
 void TuringClass::takeStep()
 {
     Action cur_action = table_of_actions[machine_point_copy.q][word_copy[machine_point_copy.p]];
+    if (cur_action.a != -1 && cur_action.q != -1) ++step;
     if (cur_action.a != -1) word_copy[machine_point_copy.p] = cur_action.a;
     if (cur_action.q != -1) machine_point_copy.q = cur_action.q;
     if (cur_action.d != 0)

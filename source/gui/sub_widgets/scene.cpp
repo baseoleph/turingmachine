@@ -26,6 +26,12 @@ void Scene::showState()
     clearRects();
 
     pointer_text->setPlainText(turing->states[turing->machine_point_copy.q]);
+//    setSceneRect(-SIDE_OF_CELL*(turing->word_copy.size() - turing->machine_point_copy.p), 0,
+//                 SIDE_OF_CELL*(turing->word_copy.size() - turing->machine_point_copy.p), height-10);
+
+//    width = this->sceneRect().width();
+//    pointer_of_machine->setPos(width/2 - SIDE_OF_CELL/2, height/2 - SIDE_OF_CELL);
+//    pointer_text->setPos(width/2, height/2 - SIDE_OF_CELL);
     for (int i = 0; i < turing->word_copy.size(); ++i)
     {
         int x_cell = (i - turing->machine_point_copy.p)*SIDE_OF_CELL + width/2 - SIDE_OF_CELL/2;
@@ -35,6 +41,14 @@ void Scene::showState()
         text_word.back()->setPos(x_cell, y_cell);
         addItem(rect_word.back());
         addItem(text_word.back());
+        if (rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft()).x() >
+            0)
+        {
+            // Здесь ответ
+            qDebug() << rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft()).x();
+            qDebug() << this->sceneRect().width();
+            qDebug() << ",jkmit";
+        }
     }
 }
 

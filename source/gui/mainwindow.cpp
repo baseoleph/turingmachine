@@ -59,6 +59,7 @@ void MainWindow::openFormCreate(CreateProjectForm *form)
     form = new CreateProjectForm(this, project);
     connect(form, &CreateProjectForm::emitCloseEventSignal, this, &MainWindow::myCloseEvent);
     connect(form, &CreateProjectForm::emitCloseSignal, this, &MainWindow::closeFormCreate);
+    connect(form, &CreateProjectForm::emitStatusBarSignal, this, &MainWindow::statusBarSlot);
     vbox->addWidget(form);
     current_form = qobject_cast<QWidget *>(vbox->itemAt(vbox->count()-1)->widget());
 }
@@ -74,6 +75,7 @@ void MainWindow::closeFormCreate(CreateProjectForm *form)
 {
     disconnect(form, &CreateProjectForm::emitCloseEventSignal, this, &MainWindow::myCloseEvent);
     disconnect(form, &CreateProjectForm::emitCloseSignal, this, &MainWindow::closeFormCreate);
+    disconnect(form, &CreateProjectForm::emitStatusBarSignal, this, &MainWindow::statusBarSlot);
 }
 
 void MainWindow::closeFormInput(InputParametersForm *form)
@@ -183,4 +185,9 @@ void MainWindow::openFailedSlot()
 void MainWindow::openSuccesSlot()
 {
     openFormCreate(create_form);
+}
+
+void MainWindow::statusBarSlot(QString str1)
+{
+    ui->statusbar->showMessage(str1);
 }

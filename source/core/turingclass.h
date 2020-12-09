@@ -30,7 +30,7 @@ public:
     QList<QString> alphabet = {};
     // machine's state
     QList<QString> states = {};
-
+    int step = 0;
     bool is_signature_fixed = false;
 
     // just for shows only named
