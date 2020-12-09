@@ -319,7 +319,7 @@ void CreateProjectForm::on_pushButton_fix_tables_clicked()
     ui->pushButton_fix_tables->hide();
     ui->pushButton_change_tables->show();
     ui->widget_words->hide();
-    ui->widget_table->setEnabled(false);
+    ui->scrollAreaWidgetContents_3->setEnabled(false);
     ui->label_word->setText(proj->getWord());
 
     ui->widget_scene->show();
@@ -337,6 +337,7 @@ void CreateProjectForm::on_pushButton_step_clicked()
     }
     emitStatusBarSignal(QString::number(proj->getSteps()));
     scene->showState();
+    ui->label_word_new->setText(proj->getNewWord());
 }
 
 void CreateProjectForm::setUpScene()
@@ -353,7 +354,7 @@ void CreateProjectForm::on_pushButton_change_tables_clicked()
     ui->pushButton_change_tables->hide();
     ui->widget_words->show();
     ui->widget_scene->hide();
-    ui->widget_table->setEnabled(true);
+    ui->scrollAreaWidgetContents_3->setEnabled(true);
     ui->label_word->clear();
 
     if (scene != nullptr) delete scene;
@@ -367,6 +368,7 @@ void CreateProjectForm::on_pushButton_2_clicked()
     {
         scene->showState();
         ui->pushButton_step->setEnabled(true);
+        ui->label_word_new->setText(proj->getNewWord());
     }
 }
 
@@ -383,4 +385,5 @@ void CreateProjectForm::on_pushButton_end_clicked()
         emitStatusBarSignal(QString::number(proj->getSteps()));
     }
     scene->showState();
+    ui->label_word_new->setText(proj->getNewWord());
 }

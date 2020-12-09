@@ -10,10 +10,10 @@ Scene::Scene(int width, int height, TuringClass *turing)
     pointer_text->setFont(font);
     createPointerOfMachine();
     setSceneRect(0, 0, width-10, height-10);
-    showState();
     addItem(pointer_of_machine);
     addItem(pointer_text);
     pointer_of_machine->setPos(width/2 - SIDE_OF_CELL/2, height/2 - SIDE_OF_CELL);
+    showState();
 }
 
 Scene::~Scene()
@@ -48,15 +48,14 @@ void Scene::showState()
         text_word.back()->setPos(x_cell + (SIDE_OF_CELL - text_width)/2, y_cell + (SIDE_OF_CELL - text_height)/2);
         addItem(text_word.back());
         addItem(rect_word.back());
-//        if (rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft()).x() >
-//            0)
-//        {
-//            // Здесь ответ
-//            qDebug() << rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft()).x();
-//            qDebug() << this->sceneRect().width();
-//            qDebug() << ",jkmit";
-//        }
     }
+
+    QPointF point_word_left = rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft());
+    QPointF point_scene_left = sceneRect().bottomLeft();
+    QPointF poinw_word_right = rect_word.first()->mapToScene(rect_word.back()->rect().bottomRight());
+    QPointF point_scene_right = sceneRect().bottomRight();
+
+//    width = qMax(point_word_left.x(), point_scene_left.x());
 }
 
 void Scene::clearRects()
@@ -71,6 +70,11 @@ void Scene::clearRects()
     }
     rect_word.clear();
     text_word.clear();
+}
+
+void Scene::setPointer()
+{
+
 }
 
 void Scene::createPointerOfMachine()

@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>952</width>
-        <height>722</height>
+        <width>938</width>
+        <height>739</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -260,7 +260,7 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>914</width>
+                     <width>900</width>
                      <height>68</height>
                     </rect>
                    </property>
@@ -347,7 +347,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>894</width>
+                       <width>880</width>
                        <height>68</height>
                       </rect>
                      </property>
@@ -512,6 +512,13 @@
                     </widget>
                    </item>
                   </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_word_new">
+                  <property name="text">
+                   <string/>
+                  </property>
                  </widget>
                 </item>
                </layout>

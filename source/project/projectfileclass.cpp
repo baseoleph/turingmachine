@@ -161,6 +161,17 @@ QString ProjectFileClass::getWord()
     return word_t;
 }
 
+QString ProjectFileClass::getNewWord()
+{
+    QString word_t = "";
+    foreach (auto e, turing->word_copy)
+    {
+        word_t += turing->alphabet[e] + " ";
+    }
+    word_t.remove(word_t.size()-1);
+    return word_t;
+}
+
 QVector<QVector<int> > ProjectFileClass::getWords()
 {
     return turing->words;

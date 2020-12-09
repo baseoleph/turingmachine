@@ -33,6 +33,7 @@ private:
     int width;
     int height;
 
+    void setPointer();
     void createPointerOfMachine();
     const int SIDE_OF_CELL = 50;
 };

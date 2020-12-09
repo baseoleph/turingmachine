@@ -55,9 +55,10 @@ public:
     void setCurrentWord(int i);
     void deleteCurrentWord(int i);
     QString getWord();
+    QString getNewWord();
     QVector<QVector<int>> getWords();
 
-    const QString empty_element = "zero";
+    const QString empty_element = "\\0";
 
     void openProject();
     void saveAsProject();
