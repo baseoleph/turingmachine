@@ -66,10 +66,10 @@ void Scene::showState()
         addItem(rect_word.back());
     }
 
-    QPointF point_word_left = rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft());
-    QPointF point_scene_left = sceneRect().bottomLeft();
-    QPointF poinw_word_right = rect_word.first()->mapToScene(rect_word.back()->rect().bottomRight());
-    QPointF point_scene_right = sceneRect().bottomRight();
+//    QPointF point_word_left = rect_word.back()->mapToScene(rect_word.back()->rect().bottomLeft());
+//    QPointF point_scene_left = sceneRect().bottomLeft();
+//    QPointF poinw_word_right = rect_word.first()->mapToScene(rect_word.back()->rect().bottomRight());
+//    QPointF point_scene_right = sceneRect().bottomRight();
 
 //    width = qMax(point_word_left.x(), point_scene_left.x());
 }
